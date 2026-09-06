@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>JelloBrain — S-series launcher audit</title>
+<style>
+:root{--bg:#05070c;--panel:#0a1019;--line:#223247;--text:#edf4ff;--muted:#8fa3bd;--cyan:#6ceaff;--gold:#ffd479;--pink:#ff79bd;--green:#8dffb0;--red:#ff7785}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 30% 0,#102039 0,#05070c 46%,#030407 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}a{color:var(--cyan)}
+header{max-width:1450px;margin:auto;padding:34px 28px 18px;display:flex;gap:24px;justify-content:space-between;align-items:end}.eyebrow{font:800 11px ui-monospace,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan)}h1{font-size:clamp(38px,6vw,82px);letter-spacing:-.055em;line-height:.94;margin:8px 0}.lead{font-size:clamp(16px,2vw,23px);max-width:900px;color:#c5d5e8;line-height:1.4}.claim{max-width:800px;color:var(--muted);line-height:1.55}.links{display:flex;gap:8px;flex-wrap:wrap}.links a{padding:9px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;background:#09111b}
+main{max-width:1450px;margin:auto;padding:12px 28px 60px}.lab{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,.7fr);gap:18px}.stage,.panel,.card{border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#0a111be8,#070b12e8);box-shadow:0 30px 90px #0007}.stage{overflow:hidden}.stageHead{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font:800 11px ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.stageHead b{color:var(--green)}canvas{display:block;width:100%;aspect-ratio:1.6/1;background:#03060a}.panel{padding:18px}.section{padding:14px 0;border-top:1px solid var(--line)}.section:first-child{padding-top:0;border:0}.label{font:800 11px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}button{border:1px solid #30445d;background:#101b29;color:var(--text);padding:11px 9px;border-radius:12px;font-weight:760;cursor:pointer}button:hover{border-color:#5d799b;transform:translateY(-1px)}button.active{border-color:#74d9ff;background:#153045}.big{grid-column:1/-1;background:linear-gradient(135deg,#173848,#2d1b3a)}.meterGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.meter{padding:10px;border:1px solid var(--line);border-radius:12px;background:#080d14}.meter b{display:block;font:850 21px ui-monospace,monospace;color:var(--gold)}.meter span{font-size:11px;color:var(--muted)}.bars{display:grid;gap:9px}.barrow{display:grid;grid-template-columns:76px 1fr 55px;align-items:center;gap:8px;font:700 11px ui-monospace,monospace;color:var(--muted)}.track{height:9px;background:#05080d;border:1px solid #223249;border-radius:999px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#4acbe9,#f083c1);width:50%;transition:width .2s}.value{text-align:right;color:#dce9f9}.note{font-size:12px;line-height:1.5;color:var(--muted)}
+.receipts{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}.receipt{padding:14px;border:1px solid var(--line);border-radius:16px;background:#081019}.gate{font:850 11px ui-monospace,monospace;color:var(--cyan)}.score{font:900 24px ui-monospace,monospace;margin:6px 0}.receipt p{margin:0;font-size:12px;color:var(--muted);line-height:1.35}.explain{margin-top:18px;padding:20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#0a1320,#100c18)}.explain h2{margin:0 0 10px;font-size:20px}.explain p{color:#afbed1;line-height:1.6}.equation{font:750 15px ui-monospace,monospace;border:1px solid #26374c;background:#070c13;border-radius:12px;padding:12px;overflow:auto}.warn{color:var(--gold)}
+@media(max-width:980px){header{align-items:flex-start;flex-direction:column}.lab{grid-template-columns:1fr}.receipts{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){header,main{padding-left:14px;padding-right:14px}.receipts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<div>
+<div class="eyebrow">JelloBrain / S-series spatial launcher audit</div>
+<h1>Subtract the road<br>you were born with.</h1>
+<p class="lead">Virgin geometry already chooses an output. After the channel is rewired, raw excitation keeps insisting on the inherited answer. A learned negative image removes that expected bias long enough for rewarded spatial traffic to grow a different road.</p>
+<p class="claim">Interactive explanation only. The numerical receipts come from <code>spatial_gates.py</code>. The biology is split deliberately: the axon initial segment motivates a launch boundary; electric-fish adaptive filtering motivates context-linked prediction and cancellation.</p>
+</div>
+<div class="links"><a href="index.html">Phase I</a><a href="dialogue.html">Phase II</a><a href="SPATIAL_RESULT.md">S-series audit</a><a href="https://github.com/anttiluode/JelloBrain">GitHub</a></div>
+</header>
+<main>
+<div class="lab">
+<section class="stage">
+<div class="stageHead"><span>private spatial body → AIS-like launch boundary → two-wire channel</span><span id="status"><b>RAW</b> / normal</span></div>
+<canvas id="c" width="1100" height="690"></canvas>
+</section>
+<aside class="panel">
+<div class="section"><div class="label">Physical channel</div><div class="buttons"><button id="normal" class="active">Normal wires</button><button id="swap">Swap wires</button></div></div>
+<div class="section"><div class="label">Launcher readout</div><div class="buttons"><button id="raw" class="active">Raw excitation</button><button id="residual">Observed − predicted</button><button class="big" id="train">Run repair interaction</button></div></div>
+<div class="section"><div class="label">Probe private cue</div><div class="buttons"><button data-cue="0">Cue A / top</button><button data-cue="1">Cue F / bottom</button></div></div>
+<div class="section"><div class="meterGrid"><div class="meter"><b id="acc">1.000</b><span>greedy task score</span></div><div class="meter"><b id="road">0.00</b><span>experience-road growth</span></div></div></div>
+<div class="section"><div class="label">Launcher decomposition</div><div class="bars"><div class="barrow"><span>observed C</span><div class="track"><div id="obs0" class="fill"></div></div><span id="ov0" class="value">1.00</span></div><div class="barrow"><span>predicted C</span><div class="track"><div id="pred0" class="fill"></div></div><span id="pv0" class="value">1.00</span></div><div class="barrow"><span>innovation C</span><div class="track"><div id="res0" class="fill"></div></div><span id="rv0" class="value">0.00</span></div><div class="barrow"><span>observed D</span><div class="track"><div id="obs1" class="fill"></div></div><span id="ov1" class="value">0.00</span></div><div class="barrow"><span>predicted D</span><div class="track"><div id="pred1" class="fill"></div></div><span id="pv1" class="value">0.00</span></div><div class="barrow"><span>innovation D</span><div class="track"><div id="res1" class="fill"></div></div><span id="rv1" class="value">0.00</span></div></div></div>
+<div class="section note"><span class="warn">Key attack:</span> with residual subtraction but material writing disabled, late reward stays at chance (~0.492). So the predictor is not secretly solving the task; it only opens the credit channel for spatial plasticity.</div>
+</aside>
+</div>
+<div class="receipts">
+<div class="receipt"><div class="gate">S0</div><div class="score">1.00</div><p>virgin inherited geometry solves normal mapping — a confound</p></div>
+<div class="receipt"><div class="gate">S1</div><div class="score">1→0</div><p>swap physical wires and the inherited solution dies</p></div>
+<div class="receipt"><div class="gate">S2</div><div class="score">0.00</div><p>raw rewarded replay cannot escape the dominant old lane</p></div>
+<div class="receipt"><div class="gate">S3</div><div class="score">1.00</div><p>context-keyed negative image + real spatial writing repairs</p></div>
+<div class="receipt"><div class="gate">S4</div><div class="score">1 vs .5</div><p>slow prediction works; a too-fast predictor learns away innovation</p></div>
+</div>
+<section class="explain"><h2>What S3 actually changed</h2><div class="equation">innovation = log(observed launcher response) − predicted log(self-generated response | cue)</div><p>The predictor is calibrated from the body's own cue-driven responses and never sees the reward target. After a wire swap, inherited geometry is still enormous in the raw signal, but it is mostly cancelled in the innovation signal. A lucky counterfactual launch can therefore be sampled. If it earns reward, the normal local JelloWorld write rule deposits material on that cue→launch trajectory. The new route exceeds the old expectation, becomes a positive residual, and gets selected more often.</p><p>This is deliberately narrower than “two spatial gels invented language.” The receiver is trivial here. S5 restores the full Phase-II problem: two independent spatial bodies, private <code>x</code> and <code>y</code>, a narrow pulse channel, corollary copies generated by launch events, and the old foreign-code / wire-swap / repair attackers.</p></section>
+</main>
+<script>
+(()=>{
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+let swapped=false,residual=false,trained=false,cue=0,phase=0,training=0;
+const pts={A:[120,170],F:[120,520],C:[650,170],D:[650,520],R0:[965,220],R1:[965,470]};
+function lerp(a,b,t){return a+(b-a)*t}
+function path(p,q,t){return [lerp(p[0],q[0],t),lerp(p[1],q[1],t)]}
+function line(p,q,w,alpha,dash=[]){ctx.save();ctx.globalAlpha=alpha;ctx.lineWidth=w;ctx.setLineDash(dash);let g=ctx.createLinearGradient(p[0],p[1],q[0],q[1]);g.addColorStop(0,'#4bcce9');g.addColorStop(1,'#f07fc0');ctx.strokeStyle=g;ctx.beginPath();ctx.moveTo(...p);ctx.lineTo(...q);ctx.stroke();ctx.restore()}
+function node(name,p,kind){ctx.save();ctx.fillStyle=kind==='cue'?'#102638':'#171324';ctx.strokeStyle=kind==='cue'?'#6ceaff':'#ff79bd';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p[0],p[1],28,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#eef5ff';ctx.font='800 18px ui-monospace,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(name,p[0],p[1]);ctx.restore()}
+function draw(){ctx.clearRect(0,0,cv.width,cv.height);ctx.fillStyle='#03060a';ctx.fillRect(0,0,cv.width,cv.height);
+ctx.fillStyle='#0a111a';ctx.strokeStyle='#203249';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(58,80,675,530,28);ctx.fill();ctx.stroke();ctx.fillStyle='#8fa3bd';ctx.font='700 13px ui-monospace,monospace';ctx.fillText('PRIVATE MATERIAL BODY',80,112);ctx.fillText('AIS-LIKE LAUNCH BOUNDARY',530,112);
+line(pts.A,pts.C,13,.58);line(pts.F,pts.D,13,.58);
+if(training>0){let a=Math.min(1,training);line(pts.A,pts.D,9,.75*a,[12,7]);line(pts.F,pts.C,9,.75*a,[12,7])}
+node('A',pts.A,'cue');node('F',pts.F,'cue');node('C',pts.C,'launch');node('D',pts.D,'launch');
+ctx.strokeStyle='#2b3c52';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(735,170);ctx.lineTo(880,170);ctx.lineTo(swapped?965:910,swapped?470:220);ctx.stroke();ctx.beginPath();ctx.moveTo(735,520);ctx.lineTo(880,520);ctx.lineTo(swapped?965:910,swapped?220:470);ctx.stroke();ctx.fillStyle='#8fa3bd';ctx.fillText(swapped?'PHYSICAL WIRES SWAPPED':'NORMAL CHANNEL',780,340);
+node('0',pts.R0,'launch');node('1',pts.R1,'launch');ctx.fillStyle='#8fa3bd';ctx.fillText('delivered pulse / action',880,610);
+const start=cue===0?pts.A:pts.F;let preferred=cue===0?pts.C:pts.D; if(swapped&&residual&&trained) preferred=cue===0?pts.D:pts.C;let pos=path(start,preferred,(Math.sin(phase)+1)/2);ctx.fillStyle='#ffd479';ctx.shadowColor='#ffd479';ctx.shadowBlur=18;ctx.beginPath();ctx.arc(pos[0],pos[1],10,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+phase+=.025;requestAnimationFrame(draw)}
+function metrics(){let inherited=cue===0?[1,.03]:[.03,1];let exp=trained&&residual&&swapped?(cue===0?[.12,1]:[1,.12]):[0,0];let observed=[Math.min(1,inherited[0]+exp[0]),Math.min(1,inherited[1]+exp[1])];let predicted=inherited;let innov=residual?[Math.max(0,observed[0]-predicted[0]),Math.max(0,observed[1]-predicted[1])]:observed;
+for(let i=0;i<2;i++){for(const [pre,val] of [['obs',observed[i]],['pred',predicted[i]],['res',innov[i]]]){document.getElementById(pre+i).style.width=(Math.max(0,Math.min(1,val))*100)+'%';document.getElementById((pre==='obs'?'ov':pre==='pred'?'pv':'rv')+i).textContent=val.toFixed(2)}}
+let acc=swapped?(trained&&residual?1:0):1;document.getElementById('acc').textContent=acc.toFixed(3);document.getElementById('road').textContent=(training).toFixed(2);document.getElementById('status').innerHTML=`<b>${residual?'RESIDUAL':'RAW'}</b> / ${swapped?'swapped':'normal'}`}
+function setActive(id,other){document.getElementById(id).classList.add('active');document.getElementById(other).classList.remove('active')}
+document.getElementById('normal').onclick=()=>{swapped=false;trained=false;training=0;setActive('normal','swap');metrics()};document.getElementById('swap').onclick=()=>{swapped=true;trained=false;training=0;setActive('swap','normal');metrics()};document.getElementById('raw').onclick=()=>{residual=false;trained=false;training=0;setActive('raw','residual');metrics()};document.getElementById('residual').onclick=()=>{residual=true;setActive('residual','raw');metrics()};document.querySelectorAll('[data-cue]').forEach(b=>b.onclick=()=>{cue=+b.dataset.cue;metrics()});document.getElementById('train').onclick=()=>{if(!swapped){swapped=true;setActive('swap','normal')}if(!residual){residual=true;setActive('residual','raw')}trained=true;let start=performance.now();function grow(t){training=Math.min(1,(t-start)/1800);metrics();if(training<1)requestAnimationFrame(grow)}requestAnimationFrame(grow)};metrics();draw();
+})();
+</script>
+</body>
+</html>
