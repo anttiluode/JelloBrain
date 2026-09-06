@@ -1,0 +1,47 @@
+{
+  "schema": "jellobrain/poke-bootstrap-gates-v1",
+  "claim_boundary": "S9 tests a transient mismatch-triggered exploration controller on one spatial JelloWorld. It is not a biological chandelier-cell model, does not establish cognition, and does not yet implement two spatial communicators.",
+  "gates": [
+    {
+      "gate": "S9_TRANSIENT_POKE_BOOTSTRAPS_SPATIAL_ROUTE",
+      "question": "Can a consequence-triggered exploratory POKE temporarily open alternatives, write the successful route into JelloWorld, and then disappear without storing the policy?",
+      "n_seeds": 12,
+      "mismatch_poke_plus_write": {
+        "final_raw_greedy_after_alarm_erased_mean": 0.5,
+        "final_raw_greedy_after_alarm_erased_all": [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5],
+        "first_100_reward_mean": 0.35916666666666663,
+        "last_100_reward_mean": 0.6858333333333334,
+        "first_100_poke_rate_mean": 0.7158333333333333,
+        "last_100_poke_rate_mean": 0.36166666666666664,
+        "total_poke_rate_mean": 0.5385000000000001
+      },
+      "no_material_write_attacker": {
+        "final_raw_greedy_after_alarm_erased_mean": 0.0,
+        "first_100_reward_mean": 0.35916666666666663,
+        "last_100_reward_mean": 0.3841666666666667,
+        "first_100_poke_rate_mean": 0.7158333333333333,
+        "last_100_poke_rate_mean": 0.7391666666666666,
+        "total_poke_rate_mean": 0.7336666666666666
+      },
+      "no_consequence_alarm_attacker": {
+        "final_raw_greedy_after_alarm_erased_mean": 0.0,
+        "first_100_reward_mean": 0.0,
+        "last_100_reward_mean": 0.0,
+        "first_100_poke_rate_mean": 0.0,
+        "last_100_poke_rate_mean": 0.0,
+        "total_poke_rate_mean": 0.0
+      },
+      "always_explore_baseline": {
+        "final_raw_greedy_after_alarm_erased_mean": 0.5,
+        "first_100_reward_mean": 0.3841666666666666,
+        "last_100_reward_mean": 0.5033333333333333,
+        "first_100_poke_rate_mean": 0.7925,
+        "last_100_poke_rate_mean": 0.7933333333333333,
+        "total_poke_rate_mean": 0.7991666666666667
+      },
+      "pass": false,
+      "interpretation": "POKE improves interaction while present but does not hand the complete policy into raw spatial material. Abundant exploration also ends at 0.5, so lack of exploration is not the remaining bottleneck."
+    }
+  ],
+  "all_pass": false
+}
