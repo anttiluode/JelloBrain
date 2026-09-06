@@ -2,33 +2,40 @@
 """S13: a familiar successful boundary must wake up when consequences change.
 
 S12 found that the shared spatial sheet works much better when reward is not a
-permanent license to keep rewriting already-good routes.  Plasticity becomes
+permanent license to keep rewriting already-good routes. Plasticity becomes
 eligible after failure, then shuts down again after repeated success.
 
 S13 asks the obvious next question: does that quiet state become brittle?
 
 A body first adapts to the SWAPPED physical pulse channel until behavior is
-reliable and POKE/write activity has habituated.  Without resetting the body,
-the external channel is then changed to NORMAL.  The same familiar private
-cues now have different outward consequences.
+reliable and POKE/write activity has habituated. Without resetting the body,
+the external channel is then changed to NORMAL. The same familiar private cues
+now have different outward consequences.
 
-The controller is intentionally weak.  It stores only one scalar
-"needs attention" value per cue.  It never receives the correct launcher
-identity.  A failed outward consequence re-opens attention, attention permits
-exploratory POKEs and successful material writes, and success lets attention
-decay again.  Final performance is measured after the controller is erased.
+The first S13 attempt was deliberately minimal: failure merely re-opened the
+cue's own attention scalar. It woke up, explored, and wrote hundreds of times,
+but settled at 0.5 raw accuracy. One context could be repaired while ongoing
+plasticity for the other damaged the shared spatial solution.
 
-Attackers:
-- NO REACTIVATION: failures after the contingency change are not allowed to
-  re-open attention.
-- NO MATERIAL WRITE: reactivation and POKEs occur, but the body cannot change.
+That makes the explicit ASSURANCE idea testable rather than decorative. After a
+material write, an assurance variant briefly probes both familiar contexts. If
+a previously embodied outward consequence has been broken, that context's
+attention is re-opened immediately. The probe supplies only a success/failure
+check; it never supplies the correct launcher identity and never edits material.
 
-A pass therefore means neither a permanently active critic nor a side-table
-policy is sufficient: changed consequences must transiently re-open plasticity,
-and the new solution must end up in JelloWorld itself.
+Controller state remains intentionally weak: one scalar "needs attention" per
+cue. Final performance is measured after all controller scalars are erased.
+
+Conditions:
+- FAILURE ONLY: failures wake the sampled cue; no cross-context assurance.
+- FAILURE + ASSURANCE: after a real material write, both familiar contexts are
+  rechecked and any broken context is re-opened.
+- NO REACTIVATION: changed consequences cannot wake the quiet controller.
+- NO MATERIAL WRITE: wake/POKE is allowed, but the body cannot change.
 
 This is a toy continual-adaptation / launch-boundary audit, not a biological
-model of chandelier cells, the AIS, acquired salience, or cortical learning.
+model of chandelier cells, the AIS, acquired salience, cortical replay, or an
+explicit neuronal self-test.
 """
 
 from __future__ import annotations
@@ -60,6 +67,18 @@ class ReversalConfig:
     plasticity_alarm_threshold: float = 0.10
 
 
+def _raw_correct(
+    world,
+    cue: int,
+    channel_map: tuple[int, int],
+    spatial_config: SpatialLaunchConfig,
+) -> bool:
+    observed = launcher_response(world, cue, config=spatial_config)
+    chosen = int(np.argmax(observed))
+    delivered = int(channel_map[chosen])
+    return bool(delivered == int(cue))
+
+
 def _run_phase(
     world,
     alarm: np.ndarray,
@@ -69,6 +88,7 @@ def _run_phase(
     episodes: int,
     reactivate_on_failure: bool,
     write_material: bool,
+    active_assurance: bool,
     config: ReversalConfig,
     spatial_config: SpatialLaunchConfig,
 ) -> dict:
@@ -78,6 +98,7 @@ def _run_phase(
     rewards = np.zeros(episodes, dtype=np.float64)
     pokes = np.zeros(episodes, dtype=np.float64)
     writes = np.zeros(episodes, dtype=np.float64)
+    assurance_reopens = np.zeros(episodes, dtype=np.float64)
 
     for ep in range(episodes):
         cue = int(rng.integers(2))
@@ -107,6 +128,18 @@ def _run_phase(
         elif reactivate_on_failure:
             alarm[cue] = 1.0
 
+        # S12 showed this check was redundant during first-time acquisition.
+        # S13 asks whether it becomes useful when rewriting an already learned
+        # shared sheet. The check returns only correct/incorrect consequence.
+        if active_assurance and write_allowed:
+            reopened = 0
+            for probe_cue in (0, 1):
+                if not _raw_correct(world, probe_cue, channel_map, scfg):
+                    if alarm[probe_cue] < 1.0:
+                        reopened += 1
+                    alarm[probe_cue] = 1.0
+            assurance_reopens[ep] = reopened
+
     def m(a: np.ndarray, start: int, stop: int | None = None) -> float:
         return float(np.mean(a[slice(start, stop)]))
 
@@ -118,6 +151,7 @@ def _run_phase(
         "first_200_write_rate": m(writes, 0, 200),
         "last_200_write_rate": m(writes, -200, None),
         "total_writes": int(np.sum(writes)),
+        "assurance_reopens": int(np.sum(assurance_reopens)),
         "alarm_after_phase": alarm.copy().tolist(),
     }
 
@@ -129,6 +163,7 @@ def _condition_after_reversal(
     *,
     reactivate_on_failure: bool,
     write_material: bool,
+    active_assurance: bool,
     config: ReversalConfig,
     spatial_config: SpatialLaunchConfig,
 ) -> dict:
@@ -149,11 +184,16 @@ def _condition_after_reversal(
         episodes=config.phase2_episodes,
         reactivate_on_failure=reactivate_on_failure,
         write_material=write_material,
+        active_assurance=active_assurance,
         config=config,
         spatial_config=spatial_config,
     )
 
     pre_erase_alarm = alarm.copy()
+    final_per_cue = [
+        float(_raw_correct(world, cue, NORMAL_CHANNEL, spatial_config))
+        for cue in (0, 1)
+    ]
     alarm[:] = 0.0
     final_new = raw_greedy_accuracy(world, NORMAL_CHANNEL, config=spatial_config)
     final_old = raw_greedy_accuracy(world, SWAPPED_CHANNEL, config=spatial_config)
@@ -161,6 +201,7 @@ def _condition_after_reversal(
     return {
         "immediate_new_channel_raw_accuracy": float(immediate_new_accuracy),
         "final_new_channel_raw_accuracy_after_controller_erased": float(final_new),
+        "final_new_channel_per_cue": final_per_cue,
         "final_old_channel_raw_accuracy_after_relearning": float(final_old),
         "alarm_before_erase": pre_erase_alarm.tolist(),
         **phase,
@@ -188,6 +229,7 @@ def run_seed(
         episodes=cfg.phase1_episodes,
         reactivate_on_failure=True,
         write_material=True,
+        active_assurance=False,
         config=cfg,
         spatial_config=scfg,
     )
@@ -195,12 +237,23 @@ def run_seed(
     phase1_raw = raw_greedy_accuracy(world, SWAPPED_CHANNEL, config=scfg)
     base_alarm = alarm.copy()
 
-    reactive = _condition_after_reversal(
+    failure_only = _condition_after_reversal(
         world,
         base_alarm,
         seed,
         reactivate_on_failure=True,
         write_material=True,
+        active_assurance=False,
+        config=cfg,
+        spatial_config=scfg,
+    )
+    assured = _condition_after_reversal(
+        world,
+        base_alarm,
+        seed,
+        reactivate_on_failure=True,
+        write_material=True,
+        active_assurance=True,
         config=cfg,
         spatial_config=scfg,
     )
@@ -210,6 +263,7 @@ def run_seed(
         seed,
         reactivate_on_failure=False,
         write_material=True,
+        active_assurance=False,
         config=cfg,
         spatial_config=scfg,
     )
@@ -219,6 +273,7 @@ def run_seed(
         seed,
         reactivate_on_failure=True,
         write_material=False,
+        active_assurance=True,
         config=cfg,
         spatial_config=scfg,
     )
@@ -229,7 +284,8 @@ def run_seed(
             "raw_accuracy_before_reversal": float(phase1_raw),
             **phase1,
         },
-        "reactivate_plus_write": reactive,
+        "failure_only_reactivation": failure_only,
+        "failure_plus_assurance": assured,
         "no_reactivation_attacker": frozen,
         "no_material_write_attacker": no_write,
     }
@@ -261,15 +317,18 @@ def gate_s13(n_seeds: int = 12) -> dict:
             "first_200_write_rate",
             "last_200_write_rate",
             "total_writes",
+            "assurance_reopens",
         ]
         out = {key + "_mean": _mean(runs, branch, key) for key in keys}
         out["final_new_raw_all"] = [
             r[branch]["final_new_channel_raw_accuracy_after_controller_erased"]
             for r in runs
         ]
+        out["final_new_per_cue_all"] = [r[branch]["final_new_channel_per_cue"] for r in runs]
         return out
 
-    reactive = summarize("reactivate_plus_write")
+    failure_only = summarize("failure_only_reactivation")
+    assured = summarize("failure_plus_assurance")
     frozen = summarize("no_reactivation_attacker")
     no_write = summarize("no_material_write_attacker")
 
@@ -277,17 +336,18 @@ def gate_s13(n_seeds: int = 12) -> dict:
         "gate": "S13_FAMILIAR_BOUNDARY_REACTIVATES_WHEN_MEANING_CHANGES",
         "question": (
             "After a familiar successful spatial launcher has gone quiet, can changed outward consequences transiently re-open POKEs/plasticity, "
-            "rewrite the body, and then habituate again without storing the new policy in the controller?"
+            "rewrite the body, protect already-repaired contexts, and then habituate again without storing the new policy in the controller?"
         ),
         "n_seeds": int(n_seeds),
         "phase1_habituated_swapped_channel": phase1,
-        "reactivate_plus_write": reactive,
+        "failure_only_reactivation": failure_only,
+        "failure_plus_assurance": assured,
         "no_reactivation_attacker": frozen,
         "no_material_write_attacker": no_write,
         "interpretation": (
-            "The same familiar cues are used before and after the contingency change. The controller knows only whether the last outward consequence failed; "
-            "it never receives the correct launcher identity. A positive result means quietness is conditional rather than permanent: failure can wake the boundary, "
-            "successful exploratory traffic can rewrite JelloWorld, and both POKE and plasticity can shut down again after the new mapping is embodied."
+            "The same familiar cues are used before and after the contingency change. The controller never receives the correct launcher identity. "
+            "The first S13 run showed that wake-up alone is insufficient: it explored and wrote but remained at 0.5 because shared-sheet changes could damage another context. "
+            "The assurance condition tests whether a second, consequence-only check after real material changes is enough to keep broken contexts eligible until the whole mapping is embodied."
         ),
     }
 
@@ -296,13 +356,15 @@ def gate_s13(n_seeds: int = 12) -> dict:
         and phase1["last_200_reward_mean"] >= 0.90
         and phase1["last_200_poke_rate_mean"] <= 0.10
         and phase1["last_200_write_rate_mean"] <= 0.10
-        and reactive["immediate_new_channel_raw_accuracy_mean"] <= 0.10
-        and reactive["final_new_channel_raw_accuracy_after_controller_erased_mean"] >= 0.95
-        and reactive["last_200_reward_mean"] >= 0.90
-        and reactive["last_200_poke_rate_mean"] <= 0.10
-        and reactive["last_200_write_rate_mean"] <= 0.10
-        and reactive["first_200_poke_rate_mean"] >= 0.10
-        and reactive["total_writes_mean"] >= 1.0
+        and assured["immediate_new_channel_raw_accuracy_mean"] <= 0.10
+        and assured["final_new_channel_raw_accuracy_after_controller_erased_mean"] >= 0.95
+        and assured["last_200_reward_mean"] >= 0.90
+        and assured["last_200_poke_rate_mean"] <= 0.10
+        and assured["last_200_write_rate_mean"] <= 0.10
+        and assured["first_200_poke_rate_mean"] >= 0.10
+        and assured["total_writes_mean"] >= 1.0
+        and assured["assurance_reopens_mean"] >= 1.0
+        and failure_only["final_new_channel_raw_accuracy_after_controller_erased_mean"] <= 0.75
         and frozen["final_new_channel_raw_accuracy_after_controller_erased_mean"] <= 0.50
         and no_write["final_new_channel_raw_accuracy_after_controller_erased_mean"] <= 0.50
     )
@@ -312,10 +374,10 @@ def gate_s13(n_seeds: int = 12) -> dict:
 def run_all_gates(n_seeds: int = 12) -> dict:
     gate = gate_s13(n_seeds)
     return {
-        "schema": "jellobrain/reversal-reactivation-gates-v1",
+        "schema": "jellobrain/reversal-reactivation-gates-v2",
         "claim_boundary": (
-            "S13 is a toy consequence-change/reactivation test. It does not establish acquired salience in cortex, "
-            "a chandelier-cell mechanism, an AIS learning rule, or a biological observer."
+            "S13 is a toy consequence-change/reactivation and assurance test. It does not establish acquired salience in cortex, "
+            "a chandelier-cell mechanism, an AIS learning rule, replay, or a biological observer."
         ),
         "gates": [gate],
         "all_pass": bool(gate["pass"]),
