@@ -1,0 +1,32 @@
+{
+  "schema": "jellobrain/crossing-route-diagnostic-v1",
+  "claim_boundary": "S10 diagnoses representational interference in the current scalar spatial material. It does not show that biological axons solve the toy or that frequency/layer separation is the unique remedy.",
+  "gates": [
+    {
+      "gate": "S10_ORACLE_CROSSING_ROUTE_CAPACITY",
+      "question": "With the correct routes supplied by an oracle, can one JelloWorld hold both swapped cue->launcher mappings at once?",
+      "n_seeds": 12,
+      "oracle_repeats_per_route": 400,
+      "a_to_d_alone_accuracy": 1.0,
+      "f_to_c_alone_accuracy": 1.0,
+      "both_routes_shared_sheet_accuracy": 1.0,
+      "sequential_accuracy_after_first_route": 0.5,
+      "sequential_accuracy_after_second_route": 0.5,
+      "example_seed_0": {
+        "seed": 0,
+        "repeats_per_route": 400,
+        "a_to_d_alone_correct": 1.0,
+        "f_to_c_alone_correct": 1.0,
+        "shared_sheet_correct": [1.0, 1.0],
+        "sequential_after_first": [1.0, 0.0],
+        "sequential_after_second": [0.0, 1.0],
+        "a_only_launcher_response": [10.699595443721416, 11.357610676084938],
+        "f_only_launcher_response": [11.357610336127836, 10.699576006282397],
+        "shared_launcher_responses": [[11.359232698518717, 11.359240536639062], [11.359241289130455, 11.359231949394863]]
+      },
+      "diagnostic_pass": false,
+      "interpretation": "The initial hard-capacity hypothesis is falsified: balanced interleaved oracle writing can formally hold both routes. Sequential writing leaves only one route correct at a time, pointing instead to interference / consolidation order."
+    }
+  ],
+  "all_pass": false
+}
