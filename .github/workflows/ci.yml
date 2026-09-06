@@ -29,3 +29,4 @@ jobs:
       - run: python robustness_gates.py
       - run: python assurance_gates.py
       - run: python reversal_gates.py
+      - run: python retirement_sweep.py
