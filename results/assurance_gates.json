@@ -1,0 +1,50 @@
+{
+  "schema": "jellobrain/assurance-plasticity-gates-v1",
+  "claim_boundary": "S12 is a toy plasticity-scheduling/assurance audit. It does not claim that chandelier cells implement these variables or that the AIS performs explicit self-tests.",
+  "gates": [
+    {
+      "gate": "S12_HABITUATED_PLASTICITY_AND_ASSURANCE",
+      "question": "Does stopping plasticity for familiar successful output prevent an already-good route from monopolizing the shared sheet, and does re-probing previously learned contexts help preserve both mappings?",
+      "n_seeds": 12,
+      "reward_every_success_baseline": {
+        "final_raw_greedy_after_controller_erased_mean": 0.5,
+        "first_200_reward_mean": 0.3516666666666666,
+        "last_200_reward_mean": 0.6741666666666667,
+        "first_200_poke_rate_mean": 0.6554166666666666,
+        "last_200_poke_rate_mean": 0.33249999999999996,
+        "first_200_write_rate_mean": 0.3516666666666666,
+        "last_200_write_rate_mean": 0.6741666666666667,
+        "total_writes_mean": 999.6666666666666,
+        "assurance_reopens_mean": 0.0,
+        "final_raw_all": [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
+      },
+      "failure_gated_plasticity": {
+        "final_raw_greedy_after_controller_erased_mean": 1.0,
+        "first_200_reward_mean": 0.3516666666666666,
+        "last_200_reward_mean": 1.0,
+        "first_200_poke_rate_mean": 0.6554166666666666,
+        "last_200_poke_rate_mean": 0.0,
+        "first_200_write_rate_mean": 0.34125,
+        "last_200_write_rate_mean": 0.0,
+        "total_writes_mean": 121.0,
+        "assurance_reopens_mean": 0.0,
+        "final_raw_all": [1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
+      },
+      "failure_gated_plus_assurance": {
+        "final_raw_greedy_after_controller_erased_mean": 1.0,
+        "first_200_reward_mean": 0.4391666666666667,
+        "last_200_reward_mean": 1.0,
+        "first_200_poke_rate_mean": 0.7383333333333334,
+        "last_200_poke_rate_mean": 0.0,
+        "first_200_write_rate_mean": 0.39083333333333337,
+        "last_200_write_rate_mean": 0.0,
+        "total_writes_mean": 130.83333333333334,
+        "assurance_reopens_mean": 92.41666666666667,
+        "final_raw_all": [1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0]
+      },
+      "interpretation": "The controller has no correct-output table. Its only persistent side state is per-context 'needs attention'. A positive result would mean novelty/relevance can gate *plasticity itself*, not only whether to emit a POKE. The final score is measured after the controller is erased.",
+      "pass": true
+    }
+  ],
+  "all_pass": true
+}
