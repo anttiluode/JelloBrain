@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>JelloBrain — words are pokes that become roads</title>
+<style>
+:root{--bg:#05070b;--panel:#0b1018;--line:#1b2736;--text:#eef4ff;--muted:#8ea0b8;--hot:#ffcf70;--cyan:#6ee7ff;--pink:#ff7bc6;--green:#8dffb2}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 30% 10%,#0c1524 0,#05070b 42%,#030406 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+a{color:var(--cyan)}
+header{max-width:1500px;margin:auto;padding:34px 28px 18px;display:flex;gap:24px;align-items:flex-end;justify-content:space-between}
+.eyebrow{font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase}
+h1{margin:6px 0 4px;font-size:clamp(38px,6vw,86px);line-height:.92;letter-spacing:-.055em}.subtitle{font-size:clamp(16px,2vw,24px);color:#c7d5e8;max-width:850px;margin:12px 0}.claim{max-width:680px;color:var(--muted);line-height:1.55}.toplinks{display:flex;gap:10px;flex-wrap:wrap}.toplinks a{border:1px solid var(--line);border-radius:999px;padding:9px 13px;text-decoration:none;background:#0a0f17aa}
+main{max-width:1500px;margin:auto;padding:10px 28px 60px}.lab{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(320px,.75fr);gap:18px;align-items:start}.stage,.panel{background:linear-gradient(180deg,#0a1019e8,#070b11e8);border:1px solid #1d2a3b;border-radius:22px;box-shadow:0 30px 100px #0008;overflow:hidden}.stagehead{display:flex;justify-content:space-between;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);font:700 12px ui-monospace,monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.09em}.stagehead b{color:var(--green)}
+.canvaswrap{position:relative;aspect-ratio:1/1;background:#020408;overflow:hidden}canvas{width:100%;height:100%;display:block}.overlay{position:absolute;left:16px;bottom:14px;display:flex;gap:8px;flex-wrap:wrap;pointer-events:none}.pill{font:700 11px ui-monospace,monospace;background:#05080dd9;border:1px solid #27364b;border-radius:999px;padding:7px 10px;color:#bcd0e8}.pill strong{color:var(--hot)}
+.panel{padding:18px}.panel h2{font-size:18px;margin:0 0 12px}.section{padding:14px 0;border-top:1px solid var(--line)}.section:first-of-type{border-top:0;padding-top:0}.label{font:700 11px ui-monospace,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}.buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.buttons.six{grid-template-columns:repeat(3,minmax(0,1fr))}button{appearance:none;border:1px solid #2a3a50;background:#101925;color:var(--text);border-radius:12px;padding:10px 9px;font-weight:720;cursor:pointer;transition:.15s ease}button:hover{transform:translateY(-1px);border-color:#4a6688;background:#152234}button.primary{background:linear-gradient(135deg,#173549,#2b1c3a);border-color:#3c6280}.toggle{display:flex;align-items:center;justify-content:space-between;padding:9px 0;color:#cbd7e7}.toggle input{accent-color:#7ce7ff}.history{min-height:52px;display:flex;gap:6px;flex-wrap:wrap;align-content:flex-start}.token{font:700 11px ui-monospace,monospace;padding:5px 7px;border:1px solid #293a50;border-radius:7px;color:#dce9f8;background:#0a111a}.meters{display:grid;grid-template-columns:1fr 1fr;gap:8px}.meter{border:1px solid var(--line);border-radius:12px;padding:10px;background:#080d14}.meter b{display:block;font:800 18px ui-monospace,monospace;color:var(--hot)}.meter span{font-size:11px;color:var(--muted)}
+.receipts{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.receipt{border:1px solid #1f3043;border-radius:16px;padding:14px;background:#081018}.receipt .gate{font:800 11px ui-monospace,monospace;color:var(--cyan)}.receipt .score{font:850 25px ui-monospace,monospace;margin:5px 0}.receipt p{margin:0;color:var(--muted);font-size:12px;line-height:1.35}.paper{margin-top:18px;padding:18px;border:1px solid #28374b;border-radius:18px;background:linear-gradient(135deg,#0b1320,#100d18)}.paper h3{margin:0 0 8px}.paper p{margin:0;color:#aebdd0;line-height:1.55}.paper strong{color:#fff}.footer{margin-top:18px;color:#75879e;font-size:12px;line-height:1.5}
+@media(max-width:980px){.lab{grid-template-columns:1fr}.receipts{grid-template-columns:repeat(2,1fr)}header{align-items:flex-start;flex-direction:column}}@media(max-width:620px){main,header{padding-left:14px;padding-right:14px}.receipts{grid-template-columns:1fr}.buttons.six{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <div class="eyebrow">JelloBrain / live substrate laboratory</div>
+    <h1>Words are pokes<br>that become roads.</h1>
+    <p class="subtitle">Six meaningless pulses enter a writable gel. Fast activity dies. Directed material remains. Later signals encounter a different operator.</p>
+    <p class="claim">This page is an explorable visualization of the model. The falsification receipts below come from the Python gate runner in the repository; this is not a claim that the animation thinks or models a biological brain.</p>
+  </div>
+  <div class="toplinks"><a href="https://github.com/anttiluode/JelloBrain">GitHub</a><a href="MODEL.md">Model</a><a href="DIALOGUE.md">Phase II</a></div>
+</header>
+<main>
+  <div class="lab">
+    <section class="stage">
+      <div class="stagehead"><span>slow directed material + fast excitation</span><span id="modeLine"><b>WRITE</b> enabled</span></div>
+      <div class="canvaswrap"><canvas id="gel" width="900" height="900"></canvas><div class="overlay"><div class="pill">signal <strong id="signalName">—</strong></div><div class="pill">step <strong id="stepNo">0</strong></div><div class="pill">queue <strong id="queueNo">0</strong></div></div></div>
+    </section>
+    <aside class="panel">
+      <h2>Intervene on the gel</h2>
+      <div class="section"><div class="label">Primitive pulse</div><div class="buttons six" id="primitiveButtons"></div></div>
+      <div class="section"><div class="label">Pseudoword</div><div class="buttons"><button data-word="ABC">ABC</button><button data-word="ACB">ACB</button><button data-word="DAF">DAF</button><button data-word="DFA">DFA</button></div></div>
+      <div class="section"><div class="label">Order-only corpora</div><div class="buttons"><button class="primary" id="growA">Grow α<br><small>ABCD / DCBA</small></button><button class="primary" id="growB">Grow β<br><small>ACBD / DBCA</small></button></div></div>
+      <div class="section"><div class="buttons"><button id="wipe">Wipe fast</button><button id="shuffle">Shuffle roads</button><button id="probe">Probe A→F</button><button id="reset">New world</button></div><label class="toggle"><span>write slow material</span><input id="writeToggle" type="checkbox" checked /></label><label class="toggle"><span>run animation</span><input id="runToggle" type="checkbox" checked /></label></div>
+      <div class="section"><div class="label">State</div><div class="meters"><div class="meter"><b id="fastEnergy">0.000</b><span>fast energy</span></div><div class="meter"><b id="slowDelta">0.000</b><span>slow material Δ</span></div></div></div>
+      <div class="section"><div class="label">Recent symbols</div><div class="history" id="history"></div></div>
+    </aside>
+  </div>
+  <div class="receipts" id="receipts">
+    <div class="receipt"><div class="gate">W0</div><div class="score">1.00</div><p>persistent history after fast wipe</p></div>
+    <div class="receipt"><div class="gate">W1</div><div class="score">1.00</div><p>same primitive counts; order still decodes</p></div>
+    <div class="receipt"><div class="gate">W2</div><div class="score">1.00 → .50</div><p>shuffle material placement and the code collapses</p></div>
+    <div class="receipt"><div class="gate">W3</div><div class="score">1.00</div><p>same target, different context</p></div>
+    <div class="receipt"><div class="gate">W4</div><div class="score">1.00 vs .75</div><p>gel linear readout beats raw linear XOR attacker</p></div>
+    <div class="receipt"><div class="gate">W5</div><div class="score">1.00</div><p>cross-world order code; chance .25</p></div>
+  </div>
+  <section class="paper"><h3>What the communication paper changes</h3><p>The Stephens–Silbert–Hasson result makes the next experiment less vague: do not fuse two gels. Keep <strong>two private interiors and one narrow channel</strong>, then measure whether task-useful coupling appears, whether lead/lag structure changes with learning, whether prediction tracks success, and whether the pair can repair a broken code. That is the Phase II gate set in <a href="DIALOGUE.md">DIALOGUE.md</a>.</p></section>
+  <div class="footer">Committed Python receipts are generated by <code>python gates.py</code>. Browser dynamics use the same ingredients—fast excitation, refractory state, eligibility, directed slow material—but are tuned for interactive visualization rather than numerical identity with the Python runner.</div>
+</main>
+<script>
+(() => {
+const C={n:34,fast:.42,refracDecay:.88,refracGain:.18,prop:.45,nonlin:1,deposit:.0065,base:.03,edgeGain:4,steps:4,input:.72,elig:.75,initial:.02};
+const symbols='ABCDEF'; const canvas=document.getElementById('gel'),ctx=canvas.getContext('2d');
+let seed=(Date.now()>>>0),running=true,write=true,queue=[],symbolClock=0,current='—',steps=0,history=[];
+function rng(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
+function arr(n,v=0){const a=new Float32Array(n); if(v) a.fill(v); return a}
+class Gel{
+ constructor(){this.n=C.n;let N=C.n,sz=N*N;this.x=arr(sz);this.r=arr(sz);this.q=arr(sz);this.e=arr(N*(N-1));this.w=arr(N*(N-1));this.s=arr((N-1)*N);this.nn=arr((N-1)*N);for(const a of [this.e,this.w,this.s,this.nn])for(let i=0;i<a.length;i++)a[i]=Math.max(0,C.initial+(rng()-.5)*.004);this.initialMean=this.materialMean();this.masks=[];let p=[[5,5],[3,N>>1],[5,N-6],[N-6,N-6],[N-4,N>>1],[N-6,5]];for(const [rr,cc] of p){let m=arr(sz);for(let y=0;y<N;y++)for(let x=0;x<N;x++){let d=(y-rr)**2+(x-cc)**2;m[y*N+x]=Math.exp(-d/(2*1.55**2))}this.masks.push(m)}}
+ wipe(){this.x.fill(0);this.r.fill(0);this.q.fill(0)}
+ inject(k){let m=this.masks[k];for(let i=0;i<this.x.length;i++)this.x[i]+=C.input*m[i]}
+ materialMean(){let sum=0,n=0;for(const a of [this.e,this.w,this.s,this.nn]){for(const v of a)sum+=v;n+=a.length}return sum/n}
+ shuffle(){let all=[...this.e,...this.w,...this.s,...this.nn];for(let i=all.length-1;i>0;i--){let j=(rng()*(i+1))|0;[all[i],all[j]]=[all[j],all[i]]}let o=0;for(const a of [this.e,this.w,this.s,this.nn])for(let i=0;i<a.length;i++)a[i]=all[o++]}
+ step(doWrite){let N=this.n,sz=N*N,nx=arr(sz),inc=arr(sz);for(let y=0;y<N;y++)for(let x=0;x<N-1;x++){let ei=y*(N-1)+x,l=y*N+x,r=l+1;inc[r]+=(C.base+C.edgeGain*this.e[ei])*this.x[l];inc[l]+=(C.base+C.edgeGain*this.w[ei])*this.x[r]}for(let y=0;y<N-1;y++)for(let x=0;x<N;x++){let ei=y*N+x,u=y*N+x,d=u+N;inc[d]+=(C.base+C.edgeGain*this.s[ei])*this.x[u];inc[u]+=(C.base+C.edgeGain*this.nn[ei])*this.x[d]}for(let i=0;i<sz;i++){let z=C.fast*this.x[i]+C.prop*inc[i]-C.refracGain*this.r[i];let v=Math.tanh(z);nx[i]=v>0?v:0;this.r[i]=C.refracDecay*this.r[i]+(1-C.refracDecay)*nx[i]}
+ if(doWrite){for(let y=0;y<N;y++)for(let x=0;x<N-1;x++){let ei=y*(N-1)+x,l=y*N+x,r=l+1;this.e[ei]=Math.min(1,this.e[ei]+C.deposit*this.q[l]*nx[r]);this.w[ei]=Math.min(1,this.w[ei]+C.deposit*this.q[r]*nx[l])}for(let y=0;y<N-1;y++)for(let x=0;x<N;x++){let ei=y*N+x,u=y*N+x,d=u+N;this.s[ei]=Math.min(1,this.s[ei]+C.deposit*this.q[u]*nx[d]);this.nn[ei]=Math.min(1,this.nn[ei]+C.deposit*this.q[d]*nx[u])}}
+ for(let i=0;i<sz;i++)this.q[i]=C.elig*this.q[i]+(1-C.elig)*this.x[i];this.x=nx;steps++}
+}
+let gel=new Gel();
+function enqueueWord(word,reps=1,forceWrite=null){for(let r=0;r<reps;r++)for(const ch of word)queue.push({k:symbols.indexOf(ch),ch,forceWrite})}
+function enqueueCorpus(which){queue=[];gel=new Gel();history=[];steps=0;let words=which==='a'?['ABCD','DCBA','ABCD','DCBA']:['ACBD','DBCA','ACBD','DBCA'];for(let rep=0;rep<12;rep++)for(const w of words)enqueueWord(w);current=which==='a'?'corpus α':'corpus β'}
+function draw(){let W=canvas.width,N=gel.n,cell=W/N;ctx.fillStyle='#020408';ctx.fillRect(0,0,W,W);ctx.lineCap='round';
+ for(let y=0;y<N;y++)for(let x=0;x<N-1;x++){let i=y*(N-1)+x,e=gel.e[i],w=gel.w[i],strength=Math.max(0,(e+w)/2-C.initial);if(strength>.0001){let a=Math.min(.75,strength*110);ctx.strokeStyle=`rgba(91,220,255,${a})`;ctx.lineWidth=Math.min(5,.6+strength*70);ctx.beginPath();ctx.moveTo((x+.5)*cell,(y+.5)*cell);ctx.lineTo((x+1.5)*cell,(y+.5)*cell);ctx.stroke()}}
+ for(let y=0;y<N-1;y++)for(let x=0;x<N;x++){let i=y*N+x,s=gel.s[i],n=gel.nn[i],strength=Math.max(0,(s+n)/2-C.initial);if(strength>.0001){let a=Math.min(.7,strength*100);ctx.strokeStyle=`rgba(255,112,197,${a})`;ctx.lineWidth=Math.min(5,.6+strength*70);ctx.beginPath();ctx.moveTo((x+.5)*cell,(y+.5)*cell);ctx.lineTo((x+.5)*cell,(y+1.5)*cell);ctx.stroke()}}
+ for(let y=0;y<N;y++)for(let x=0;x<N;x++){let v=gel.x[y*N+x];if(v>.015){let px=(x+.5)*cell,py=(y+.5)*cell,rad=cell*(.3+1.15*v);let g=ctx.createRadialGradient(px,py,0,px,py,rad*2.5);g.addColorStop(0,`rgba(255,245,190,${Math.min(1,v*1.5)})`);g.addColorStop(.35,`rgba(255,174,88,${Math.min(.9,v)})`);g.addColorStop(1,'rgba(255,90,180,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,py,rad*2.5,0,Math.PI*2);ctx.fill()}}
+ const p=[[5,5],[3,N>>1],[5,N-6],[N-6,N-6],[N-4,N>>1],[N-6,5]];ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`700 ${Math.max(12,cell*.7)}px ui-monospace,monospace`;p.forEach(([yy,xx],k)=>{ctx.fillStyle='#06111a';ctx.strokeStyle='#6ee7ff';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc((xx+.5)*cell,(yy+.5)*cell,cell*.55,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#dff8ff';ctx.fillText(symbols[k],(xx+.5)*cell,(yy+.5)*cell)});
+ let energy=0;for(const v of gel.x)energy+=v*v;energy/=gel.x.length;document.getElementById('fastEnergy').textContent=energy.toFixed(3);document.getElementById('slowDelta').textContent=(gel.materialMean()-gel.initialMean).toFixed(4);document.getElementById('signalName').textContent=current;document.getElementById('stepNo').textContent=steps;document.getElementById('queueNo').textContent=queue.length;document.getElementById('modeLine').innerHTML=`<b>${write?'WRITE':'READ'}</b> ${write?'enabled':'material frozen'}`;let h=document.getElementById('history');h.innerHTML=history.slice(-18).map(x=>`<span class="token">${x}</span>`).join('')}
+function tick(){if(running){if(symbolClock<=0&&queue.length){let item=queue.shift();gel.inject(item.k);current=item.ch;history.push(item.ch);symbolClock=C.steps;itemActiveWrite=item.forceWrite}else if(symbolClock<=0&&!queue.length)current='—';let w=itemActiveWrite==null?write:itemActiveWrite;gel.step(w);if(symbolClock>0)symbolClock--}draw();requestAnimationFrame(tick)}let itemActiveWrite=null;
+const pb=document.getElementById('primitiveButtons');for(const ch of symbols){let b=document.createElement('button');b.textContent=ch;b.onclick=()=>enqueueWord(ch);pb.appendChild(b)}document.querySelectorAll('[data-word]').forEach(b=>b.onclick=()=>enqueueWord(b.dataset.word));document.getElementById('growA').onclick=()=>enqueueCorpus('a');document.getElementById('growB').onclick=()=>enqueueCorpus('b');document.getElementById('wipe').onclick=()=>{gel.wipe();queue=[];current='wiped'};document.getElementById('shuffle').onclick=()=>{gel.shuffle();gel.wipe();current='roads shuffled'};document.getElementById('probe').onclick=()=>{gel.wipe();queue=[];for(const ch of symbols)enqueueWord(ch,1,false);current='neutral probe'};document.getElementById('reset').onclick=()=>{gel=new Gel();queue=[];history=[];steps=0;current='new world'};document.getElementById('writeToggle').onchange=e=>write=e.target.checked;document.getElementById('runToggle').onchange=e=>running=e.target.checked;
+fetch('results/gates.json').then(r=>r.json()).then(j=>{if(!j.gates)return;const el=document.getElementById('receipts');el.innerHTML=j.gates.map(g=>{let score=g.accuracy??g.reservoir_accuracy??g.intact_accuracy;let extra=g.gate.startsWith('W2')?` → ${Number(g.shuffled_accuracy).toFixed(2)}`:g.gate.startsWith('W4')?` vs ${Number(g.raw_linear_attacker_upper_accuracy).toFixed(2)}`:'';return `<div class="receipt"><div class="gate">${g.gate.split('_')[0]}</div><div class="score">${Number(score).toFixed(2)}${extra}</div><p>${g.question}</p></div>`}).join('')}).catch(()=>{});
+tick();
+})();
+</script>
+</body>
+</html>
