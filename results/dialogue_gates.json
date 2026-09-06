@@ -1,0 +1,73 @@
+{
+  "schema": "jellobrain/dialogue-gates-v1",
+  "task": "A sees x, B sees y, one meaningless binary pulse crosses A->B, B must output x XOR y",
+  "claim_boundary": "Passing D0-D4 shows an emergent, pair-specific, repairable signaling convention in a minimal reward-modulated material toy. It does not establish language understanding, neural coupling, qualia transfer, consciousness, or a biological mechanism. D1 is only a discrete predictive analogue.",
+  "gates": [
+    {
+      "gate": "D0_COMMUNICATION_SPECIFIC",
+      "question": "Does the narrow pulse channel carry pair-specific task information rather than generic synchrony?",
+      "pairs": 16,
+      "training_episodes": 2000,
+      "intact_mean_reward": 1.0,
+      "swapped_channel_mean_reward": 0.0,
+      "foreign_code_crossplay_mean_reward": 0.475,
+      "chance": 0.5,
+      "pass": true
+    },
+    {
+      "gate": "D1_PREDICTIVE_PULSE_EFFECT",
+      "question": "Does an incoming learned pulse become an immediate predictive intervention for the receiver?",
+      "note": "discrete causal analogue only; this gate does not test brain-scale anticipatory lead/lag",
+      "early_post_pulse_correct_probability": 0.4579086524195088,
+      "late_post_pulse_correct_probability": 0.9958209163944897,
+      "early_no_pulse_correct_probability": 0.5,
+      "late_no_pulse_correct_probability": 0.5,
+      "late_pulse_gain": 0.49582091639448966,
+      "learning_gain": 0.5379122639749809,
+      "pass": true
+    },
+    {
+      "gate": "D2_COUPLING_TRACKS_SUCCESS",
+      "question": "Across independent pairs at different learning stages, does task-relevant pulse coupling track reward?",
+      "pearson_r": 0.8845998807103285,
+      "n_pairs": 48,
+      "budget_reward_means": {
+        "20": 0.5,
+        "40": 0.6666666666666666,
+        "80": 0.75,
+        "120": 0.875,
+        "200": 0.875,
+        "400": 1.0,
+        "800": 1.0,
+        "1600": 1.0
+      },
+      "pass": true
+    },
+    {
+      "gate": "D3_REPAIR",
+      "question": "After the two physical pulse wires are swapped, can the pair renegotiate without being told the new code?",
+      "pairs": 12,
+      "pretrain_episodes": 1600,
+      "repair_episodes": 600,
+      "immediate_post_swap_reward": 0.0,
+      "frozen_code_reward": 0.0,
+      "repaired_greedy_reward": 1.0,
+      "repaired_tail_training_reward": 0.9908333333333333,
+      "pass": true
+    },
+    {
+      "gate": "D4_PRIVATE_CODE_SHARED_RELATION",
+      "question": "Do independent pairs use different raw pulse identities while converging on the same relational task structure?",
+      "pairs": 20,
+      "orientation_counts": {
+        "(0, 1)": 10,
+        "(1, 0)": 10
+      },
+      "both_binary_conventions_present": true,
+      "foreign_raw_crossplay_mean_reward": 0.47368421052631576,
+      "canonical_relational_accuracy": 1.0,
+      "pass": true
+    }
+  ],
+  "all_pass": true
+}
