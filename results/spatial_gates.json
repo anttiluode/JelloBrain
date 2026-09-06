@@ -1,0 +1,93 @@
+{
+  "schema": "jellobrain/spatial-launch-gates-v1",
+  "claim_boundary": "These gates isolate an axon-like launch boundary on one full spatial JelloWorld. They do not yet establish two full spatial communicators, biological corollary discharge, or an axon initial segment model.",
+  "gates": [
+    {
+      "gate": "S0_INHERITED_GEOMETRIC_SHORTCUT",
+      "question": "Does virgin spatial geometry already solve the unswapped pulse task?",
+      "n_seeds": 12,
+      "accuracies": [1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0],
+      "mean_accuracy": 1.0,
+      "chance": 0.5,
+      "pass": true,
+      "interpretation": "A perfect virgin score is a confound, not evidence of learning."
+    },
+    {
+      "gate": "S1_CHANNEL_CAUSALITY",
+      "question": "Does swapping the two physical channel wires destroy the inherited solution?",
+      "normal_mean": 1.0,
+      "swapped_mean": 0.0,
+      "delta": 1.0,
+      "pass": true
+    },
+    {
+      "gate": "S2_NAIVE_RAW_REPLAY_FAILS",
+      "question": "Can raw-excitation choice plus rewarded spatial replay escape the inherited route after wire swap?",
+      "n_seeds": 12,
+      "greedy_mean": 0.0,
+      "greedy_all": [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],
+      "first_50_reward_mean": 0.0,
+      "last_50_reward_mean": 0.0,
+      "last_100_reward_mean": 0.0,
+      "pass": true,
+      "interpretation": "Inherited excitation monopolizes the launcher, so rewarded counterfactual traffic is almost never sampled."
+    },
+    {
+      "gate": "S3_NEGATIVE_IMAGE_REPAIR",
+      "question": "Does context-keyed observed-minus-predicted launch activity enable spatial repair after wire swap?",
+      "n_seeds": 12,
+      "residual_plus_write": {
+        "greedy_mean": 1.0,
+        "greedy_all": [1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0],
+        "first_50_reward_mean": 0.7666666666666666,
+        "last_50_reward_mean": 1.0,
+        "last_100_reward_mean": 1.0
+      },
+      "residual_no_write_attacker": {
+        "greedy_mean": 0.625,
+        "greedy_all": [0.0,0.5,0.0,1.0,1.0,0.5,0.5,1.0,0.5,1.0,1.0,0.5],
+        "first_50_reward_mean": 0.5083333333333333,
+        "last_50_reward_mean": 0.49000000000000005,
+        "last_100_reward_mean": 0.49249999999999994
+      },
+      "global_prediction_attacker": {
+        "greedy_mean": 0.0,
+        "greedy_all": [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],
+        "first_50_reward_mean": 0.0,
+        "last_50_reward_mean": 0.0,
+        "last_100_reward_mean": 0.0
+      },
+      "scrambled_prediction_context_attacker": {
+        "greedy_mean": 0.0,
+        "greedy_all": [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],
+        "first_50_reward_mean": 0.0,
+        "last_50_reward_mean": 0.0,
+        "last_100_reward_mean": 0.0
+      },
+      "pass": true,
+      "interpretation": "Subtraction alone is not the solution: the no-write attacker stays near chance. A global baseline also fails: cancellation must be keyed to the current corollary/context signal. The residual opens exploration/credit, and actual JelloWorld material writing builds the alternate road."
+    },
+    {
+      "gate": "S4_PREDICTOR_TIMESCALE",
+      "question": "Does an expectation model that tracks too fast erase the very innovation needed for repair?",
+      "n_seeds": 12,
+      "slow_predictor": {
+        "greedy_mean": 1.0,
+        "greedy_all": [1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0],
+        "first_50_reward_mean": 0.7666666666666666,
+        "last_50_reward_mean": 1.0,
+        "last_100_reward_mean": 1.0
+      },
+      "fast_predictor_attacker": {
+        "greedy_mean": 0.5,
+        "greedy_all": [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5],
+        "first_50_reward_mean": 0.7783333333333333,
+        "last_50_reward_mean": 0.48499999999999993,
+        "last_100_reward_mean": 0.49166666666666664
+      },
+      "pass": true,
+      "interpretation": "The useful split depends on relative timescale: prediction must not instantly absorb newly relevant route changes."
+    }
+  ],
+  "all_pass": true
+}
