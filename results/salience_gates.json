@@ -1,0 +1,69 @@
+{
+  "schema": "jellobrain/salience-launch-gates-v1",
+  "claim_boundary": "S5-S8 are a minimal launch-boundary isolator, not a biological chandelier-cell model and not a full spatial communication task. They test the computational distinction between surprise, contextual relevance, and sparse outward pings.",
+  "gates": [
+    {
+      "gate": "S5_NOVELTY_HABITUATION",
+      "question": "Can a fast expectation suppress repeated harmless pings without changing the event itself?",
+      "n_seeds": 24,
+      "initial_ping_rate": 0.8506944444444443,
+      "late_ping_rate": 0.0,
+      "initial_surprise": 0.46744515860648866,
+      "late_surprise": 0.016923343579327687,
+      "pass": true,
+      "interpretation": "The event becomes expected, so novelty-driven launch demand collapses."
+    },
+    {
+      "gate": "S6_FAMILIAR_BUT_RELEVANT",
+      "question": "When a fully familiar event later becomes consequential, can a separate relevance state reactivate sparse pings after surprise is gone?",
+      "n_seeds": 24,
+      "dual_gate": {
+        "relevant_pair_ping_rate": 1.0,
+        "same_event_wrong_context_ping_rate": 0.0,
+        "other_event_c0_ping_rate": 0.0,
+        "other_event_c1_ping_rate": 0.0,
+        "uniform_ping_rate": 0.25,
+        "ping_precision": 1.0
+      },
+      "surprise_only_attacker": {
+        "relevant_pair_ping_rate": 0.0
+      },
+      "relevance_ablation_attacker": {
+        "relevant_pair_ping_rate_after_ablation": 0.0
+      },
+      "always_ping_baseline": {
+        "uniform_ping_rate": 1.0,
+        "ping_precision": 0.25
+      },
+      "pass": true,
+      "interpretation": "Expected does not mean irrelevant. Surprise-only gating misses the familiar important event; learned relevance restores launch priority without restoring indiscriminate pinging."
+    },
+    {
+      "gate": "S7_CONTEXTUAL_RELEVANCE",
+      "question": "Is relevance tied to event identity alone, or must it be keyed to the current context?",
+      "n_seeds": 24,
+      "context_specific": {
+        "target_ping_rate": 1.0,
+        "same_event_wrong_context_ping_rate": 0.0
+      },
+      "global_relevance_attacker": {
+        "target_ping_rate": 1.0,
+        "same_event_wrong_context_ping_rate": 1.0
+      },
+      "pass": true,
+      "interpretation": "A global event-level salience scalar overgeneralizes. The same familiar event must be launch-worthy in one context and quiet in another."
+    },
+    {
+      "gate": "S8_FAST_EXPECTATION_WITH_SEPARATE_RELEVANCE",
+      "question": "Does fast prediction still destroy useful gating when relevance is stored separately from prediction error?",
+      "n_seeds": 24,
+      "prediction_rate": 0.8,
+      "dual_gate_relevant_ping_rate": 1.0,
+      "dual_gate_wrong_context_ping_rate": 0.0,
+      "surprise_only_relevant_ping_rate": 0.0,
+      "pass": true,
+      "interpretation": "S4's failure was specific to a surprise-only launcher. A fast expectation can coexist with persistent useful output if learned relevance is a different variable. The stronger hypothesis is separation of roles, not simply 'prediction must always be slow.'"
+    }
+  ],
+  "all_pass": true
+}
