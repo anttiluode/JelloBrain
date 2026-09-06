@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>JelloBrain — Two Private Gels</title>
+<style>
+:root{--bg:#071014;--panel:#0d1a20;--ink:#e7fff8;--muted:#8fb0aa;--line:#1c393d;--glow:#67ffd0;--hot:#ffb35c;--bad:#ff6b78}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#17303a 0,#071014 48%);color:var(--ink);font:15px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100vh}
+a{color:var(--glow)}header{max-width:1180px;margin:auto;padding:28px 20px 10px}h1{margin:0;font-size:clamp(28px,5vw,58px);letter-spacing:-.05em}header p{max-width:900px;color:var(--muted);font-size:16px}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:5px 10px;margin:0 7px 7px 0;color:var(--muted)}main{max-width:1180px;margin:auto;padding:14px 20px 60px}.lab{display:grid;grid-template-columns:1fr 180px 1fr;gap:14px;align-items:stretch}.gel,.channel,.panel{background:linear-gradient(180deg,#102127dd,#0a1519ee);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 60px #0007}.gel{padding:18px;min-height:400px}.channel{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}.gel h2,.panel h2{margin:0 0 4px}.sub{color:var(--muted);font-size:12px}.cue{font-size:72px;font-weight:800;line-height:1;margin:26px 0 20px;color:var(--glow);text-shadow:0 0 28px #67ffd055}.roads{display:grid;gap:11px}.road{display:grid;grid-template-columns:92px 1fr 42px;gap:8px;align-items:center}.track{height:12px;border-radius:999px;background:#061014;border:1px solid #20383a;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#2aa58c,#7bffd3);transition:width .12s}.fill.receiver{background:linear-gradient(90deg,#9473ff,#6fffd1)}.pulse{width:72px;height:72px;border-radius:50%;border:2px solid var(--glow);display:grid;place-items:center;font-size:34px;font-weight:900;box-shadow:0 0 35px #67ffd055;transition:transform .2s,opacity .2s}.pulse.fire{transform:scale(1.24);box-shadow:0 0 60px #67ffd0aa}.wire{width:3px;height:80px;background:linear-gradient(transparent,var(--glow),transparent);margin:8px}.swap{color:var(--hot);font-size:12px;text-align:center}.controls{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0}.controls button{background:#10252a;border:1px solid #2f5658;color:var(--ink);border-radius:10px;padding:9px 13px;font:inherit;cursor:pointer}.controls button:hover{border-color:var(--glow)}.controls button.hot{border-color:#845e30;color:#ffd29d}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.stat,.panel{padding:15px}.stat{background:#09171b;border:1px solid var(--line);border-radius:14px}.stat b{font-size:24px;display:block}.panels{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.receipt{margin-top:12px}.receipt table{width:100%;border-collapse:collapse}.receipt td,.receipt th{border-bottom:1px solid var(--line);padding:8px;text-align:left}.good{color:var(--glow)}.bad{color:var(--bad)}code{color:#b8ffe9}@media(max-width:800px){.lab{grid-template-columns:1fr}.channel{min-height:180px}.stats{grid-template-columns:1fr 1fr}.panels{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="tag">Phase II</div><div class="tag">no shared state</div><div class="tag">one binary pulse</div>
+  <h1>Two private gels invent a convention.</h1>
+  <p>A sees private bit <code>x</code>. B sees private bit <code>y</code>. Only one meaningless pulse crosses the boundary. B is rewarded for producing <code>x XOR y</code>. No pulse has a predefined meaning; successful traffic changes slow private material.</p>
+  <p><a href="./">← JelloBrain</a> · <a href="DIALOGUE_RESULT.md">receipt</a> · <a href="https://github.com/anttiluode/JelloBrain">source</a></p>
+</header>
+<main>
+<div class="lab">
+  <section class="gel"><h2>PRIVATE GEL A</h2><div class="sub">sender — can see x, cannot see y or B's material</div><div class="cue" id="cueA">0</div><div class="roads" id="senderRoads"></div></section>
+  <section class="channel"><div class="sub">NARROW CHANNEL</div><div class="wire"></div><div class="pulse" id="pulse">?</div><div class="wire"></div><div class="swap" id="wireState">wires normal</div></section>
+  <section class="gel"><h2>PRIVATE GEL B</h2><div class="sub">receiver — can see y + pulse, cannot inspect A</div><div class="cue" id="cueB">0</div><div class="roads" id="receiverRoads"></div></section>
+</div>
+<div class="controls">
+<button id="step">one interaction</button><button id="train50">train 50</button><button id="train500">train 500</button><button class="hot" id="swap">swap physical wires</button><button id="freeze">freeze adaptation</button><button id="reset">new pair</button>
+</div>
+<div class="stats">
+<div class="stat"><span class="sub">episodes</span><b id="episodes">0</b></div>
+<div class="stat"><span class="sub">rolling reward</span><b id="reward">—</b></div>
+<div class="stat"><span class="sub">greedy task reward</span><b id="greedy">—</b></div>
+<div class="stat"><span class="sub">raw convention</span><b id="orientation">?,?</b></div>
+</div>
+<div class="panels">
+<section class="panel"><h2>Last interaction</h2><pre id="log">x=?  pulse=?  y=?  action=?  reward=?</pre><p class="sub">A chooses a pulse from its private slow roads. B chooses an action from its own cue×pulse roads. Reward deposits used roads; failure erodes them.</p></section>
+<section class="panel"><h2>Attack it</h2><p>Once greedy reward reaches 1.00, press <b>swap physical wires</b>. The old convention should immediately fail. Leave adaptation on and train again: a new compatible convention can grow without telling either side the new mapping.</p><p class="sub">This browser toy mirrors the protocol logic, not Python's exact random stream.</p></section>
+</div>
+<section class="panel receipt"><h2>Frozen Python receipt</h2><table><tr><th>Gate</th><th>Result</th></tr><tr><td>D0 useful channel</td><td class="good">1.000 intact · 0.000 wire swap · 0.475 foreign code</td></tr><tr><td>D1 predictive pulse</td><td class="good">0.458 → 0.996; no-pulse 0.500</td></tr><tr><td>D2 coupling / success</td><td class="good">r = 0.885 across 48 pairs</td></tr><tr><td>D3 repair</td><td class="good">0.000 broken → 1.000 repaired</td></tr><tr><td>D4 private convention</td><td class="good">10 / 10 opposite binary codes; crossplay 0.474</td></tr></table><p class="sub">These are toy-model receipts. D1 is a discrete causal analogue, not a reproduction of the anticipatory fMRI result in Stephens, Silbert & Hasson (2010).</p></section>
+</main>
+<script>
+let seed=Date.now()>>>0; function rnd(){seed|=0;seed=seed+0x6D2B79F5|0;let t=seed;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}
+const C={base:.5,sigma:.03,dep:.08,ero:.03,relax:.0005,t0:.40,t1:.05};let S,R,ep=0,hist=[],swapped=false,frozen=false;
+function gauss(){let u=1-rnd(),v=1-rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function reset(){S=Array.from({length:2},()=>Array.from({length:2},()=>Math.max(0,Math.min(1,C.base+C.sigma*gauss()))));R=Array.from({length:2},()=>Array.from({length:2},()=>Array.from({length:2},()=>Math.max(0,Math.min(1,C.base+C.sigma*gauss())))));ep=0;hist=[];swapped=false;frozen=false;render()}
+function sm(v,t){let m=Math.max(...v),e=v.map(x=>Math.exp((x-m)/Math.max(t,1e-6))),z=e[0]+e[1];return e.map(x=>x/z)}function pick(p){return rnd()<p[0]?0:1}
+function interact(total=500,display=true){let x=rnd()<.5?0:1,y=rnd()<.5?0:1,t=C.t0+(C.t1-C.t0)*Math.min(1,ep/Math.max(1,total));let m=pick(sm(S[x],t)),d=swapped?1-m:m,a=pick(sm(R[y][d],t)),target=x^y,r=+(a===target);if(!frozen){for(let i=0;i<2;i++)for(let j=0;j<2;j++)S[i][j]+=C.relax*(C.base-S[i][j]);for(let i=0;i<2;i++)for(let j=0;j<2;j++)for(let k=0;k<2;k++)R[i][j][k]+=C.relax*(C.base-R[i][j][k]);if(r){S[x][m]+=C.dep*(1-S[x][m]);R[y][d][a]+=C.dep*(1-R[y][d][a])}else{S[x][m]*=1-C.ero;R[y][d][a]*=1-C.ero}}ep++;hist.push(r);if(hist.length>200)hist.shift();if(display){document.getElementById('cueA').textContent=x;document.getElementById('cueB').textContent=y;document.getElementById('pulse').textContent=m;let p=document.getElementById('pulse');p.classList.add('fire');setTimeout(()=>p.classList.remove('fire'),130);document.getElementById('log').textContent=`x=${x}  chosen pulse=${m}  delivered=${d}  y=${y}  action=${a}  target=${target}  reward=${r}`;render()}return r}
+function greedy(){let ok=0;for(let x=0;x<2;x++){let m=S[x][1]>S[x][0]?1:0,d=swapped?1-m:m;for(let y=0;y<2;y++){let a=R[y][d][1]>R[y][d][0]?1:0;ok+=+(a===(x^y))}}return ok/4}
+function road(label,val,cls=''){return `<div class="road"><span>${label}</span><div class="track"><div class="fill ${cls}" style="width:${(100*val).toFixed(1)}%"></div></div><span>${val.toFixed(2)}</span></div>`}
+function render(){let s='';for(let x=0;x<2;x++)for(let m=0;m<2;m++)s+=road(`x${x}→p${m}`,S[x][m]);document.getElementById('senderRoads').innerHTML=s;let r='';for(let y=0;y<2;y++)for(let m=0;m<2;m++){let best=Math.max(R[y][m][0],R[y][m][1]),a=R[y][m][1]>R[y][m][0]?1:0;r+=road(`y${y},p${m}→a${a}`,best,'receiver')}document.getElementById('receiverRoads').innerHTML=r;document.getElementById('episodes').textContent=ep;document.getElementById('reward').textContent=hist.length?(hist.reduce((a,b)=>a+b,0)/hist.length).toFixed(2):'—';document.getElementById('greedy').textContent=greedy().toFixed(2);let o0=S[0][1]>S[0][0]?1:0,o1=S[1][1]>S[1][0]?1:0;document.getElementById('orientation').textContent=`${o0},${o1}`;document.getElementById('wireState').textContent=swapped?'WIRES SWAPPED':'wires normal';document.getElementById('freeze').textContent=frozen?'resume adaptation':'freeze adaptation'}
+document.getElementById('step').onclick=()=>interact();document.getElementById('train50').onclick=()=>{for(let i=0;i<49;i++)interact(500,false);interact()};document.getElementById('train500').onclick=()=>{for(let i=0;i<499;i++)interact(1000,false);interact()};document.getElementById('swap').onclick=()=>{swapped=!swapped;render()};document.getElementById('freeze').onclick=()=>{frozen=!frozen;render()};document.getElementById('reset').onclick=()=>{seed=(Date.now()^Math.floor(Math.random()*1e9))>>>0;reset()};reset();
+</script>
+</body></html>
