@@ -25,3 +25,4 @@ jobs:
       - run: python spatial_gates.py
       - run: python salience_gates.py
       - run: python poke_gates.py
+      - run: python crossing_gates.py
