@@ -17,7 +17,7 @@ Stephens, Silbert & Hasson (PNAS, 2010, doi:10.1073/pnas.1008662107) measured a 
 
 That paper is **inspiration for tests, not validation of this toy**. Its signal is fMRI/BOLD, its temporal precision is limited, and it does not claim a gelatin substrate or pulse vocabulary.
 
-## D0–D4 are now implemented
+## D0–D4 are implemented
 
 Run:
 
@@ -57,8 +57,6 @@ Successful traffic deposits the chosen road. Failed traffic erodes it. Unused ma
 
 This is a minimal reward-modulated material signaling game. It is **not yet the full 2-D JelloWorld**.
 
-That limitation is now the next experiment rather than something to hide.
-
 ## The important attackers
 
 The dialogue demo is attacked rather than judged by visual synchrony:
@@ -72,18 +70,9 @@ The dialogue demo is attacked rather than judged by visual synchrony:
 
 A pretty synchronized animation is not communication. **The pulses must change what the pair can jointly do.**
 
-## Next gate — Spatial Dialogue
+# Spatial transition — the first direct attempt failed
 
-The protocol isolator works. Now remove its biggest convenience.
-
-Replace:
-
-```text
-cue -> pulse associative material
-cue × pulse -> action associative material
-```
-
-with two actual spatial `JelloWorld` bodies:
+The obvious next move was to replace the protocol tables with two actual spatial `JelloWorld` bodies:
 
 ```text
 private spatial world A
@@ -101,14 +90,124 @@ private spatial world B
     spatial dynamics choose an action launcher
 ```
 
-Then rerun D0–D4 unchanged as far as possible.
+But the first version revealed a confound before learning even began.
 
-That is the hard question now:
+With geometrically aligned ports, virgin space already preferred one cue→launcher mapping. The system scored perfectly on the normal channel **before any adaptation**. Swapping the physical channel then turned that inherited mapping into the exactly wrong answer, and naive rewarded replay could not escape it.
+
+That failure is now frozen instead of being tuned away.
+
+## S0–S4 — launch boundary audit
+
+See [`SPATIAL_RESULT.md`](SPATIAL_RESULT.md), [`spatial_launcher.py`](spatial_launcher.py), and [`spatial_gates.py`](spatial_gates.py).
+
+The question changed from:
+
+> Can geography carry a protocol?
+
+into:
+
+> **How does a launch boundary tell the road the body inherited from the road experience has made relevant?**
+
+The controlled S-series uses one full spatial body with two deliberately inherited lanes and then swaps its output wires.
+
+| Gate | Receipt | Interpretation |
+|---|---:|---|
+| **S0 inherited shortcut** | virgin normal **1.000** | geometry itself can fake a learned protocol |
+| **S1 channel causality** | **1.000 → 0.000** after swap | the physical output mapping is causal |
+| **S2 naive raw repair** | greedy **0.000** | inherited excitation monopolizes launch choice |
+| **S3 negative-image repair** | greedy **1.000**, late reward **1.000** | context-keyed expected-response subtraction opens exploration/credit and local material writing grows the alternate route |
+| **S3 no-write attacker** | late reward **0.492** | prediction/subtraction alone does not solve the task |
+| **S3 global predictor attacker** | greedy **0.000** | global normalization is insufficient |
+| **S3 wrong-context attacker** | greedy **0.000** | prediction has to be keyed to the correct private context |
+| **S4 predictor timescale** | slow **1.000**, fast **0.500** | expectation can adapt so quickly that it erases the innovation needed for repair |
+
+All numbers are means across 12 independent seeds.
+
+## Why electric fish and the axon belong here — separately
+
+The mormyrid electric-fish literature gives a real precedent for a system learning a **negative image** of predictable self-generated input and subtracting it so unexpected residual structure remains visible. That motivates the S3 computation:
+
+```text
+innovation
+ = observed launcher response
+ - predicted self-generated response given context
+```
+
+The axon initial segment motivates a different part of the architecture. It is a specialized boundary between somatodendritic and axonal compartments and a major site of action-potential initiation and excitability control. Its composition, position, and morphology are plastic.
+
+So JelloBrain should not pretend that one biological mechanism does everything. The cleaner decomposition is:
+
+```text
+PRIVATE SPATIAL BODY
+        ↓
+AIS-LIKE LAUNCH BOUNDARY
+        ├──────────── external travelling pulse / axon
+        │
+        └──────────── private corollary copy
+                             ↓
+                    EXPECTATION / NEGATIVE IMAGE
+                             ↓
+                         innovation
+                             ↓
+                    credit / future launch
+```
+
+The fish inspires **prediction + cancellation**. The AIS inspires **launch + compartment boundary**. They are not the same biological claim.
+
+## S4 adds a timescale constraint
+
+The predictor cannot simply chase the body as fast as possible.
+
+When the S-series predictor tracks the current response too quickly, it absorbs the newly useful route into expectation almost immediately and cancels the residual that was giving that route credit. Repair falls back to chance.
+
+So the current structural hypothesis is:
+
+> **Expectation must be slower than the innovation it is supposed to reveal.**
+
+Or in the language of the wider project:
+
+```text
+fast       current traffic / exploration
+medium     learned consequences / route change
+slower     expected self-generated operator response
+```
+
+The exact numerical rates in the toy are not biological claims. The dependency on relative timescale is the thing to test.
+
+# Next gate — S5: two full spatial communicators
+
+Now return to the original Phase-II task, but carry the S3/S4 lesson with us.
+
+```text
+SPATIAL A                         SPATIAL B
+private x                         private y
+   ↓                                 ↓
+material body                    material body
+   ↓                                 ↑
+AIS-like launch ── pulse ────────────┘
+   │                                 ↓
+   └─ private corollary copy     residual filter
+                                     ↓
+                                action launcher
+                                     ↓
+                                  XOR reward
+```
+
+Requirements:
+
+- two full `JelloWorld` interiors;
+- no table receiver;
+- no globally assigned pulse meaning;
+- only the travelling pulse crosses the boundary;
+- launch events create their own private corollary-copy signal;
+- prediction is learned from self-generated/context-linked responses, not the reward target;
+- spatial route changes still use local material writing;
+- rerun wire swap, foreign crossplay, frozen plasticity, prediction-context scrambling, and repair.
+
+If S5 fails while D0–D4 and S0–S4 pass, that is useful: the protocol and single-boundary mechanisms do not compose into spatial communication. If it survives, then the original question becomes legitimate again:
 
 > **Can geography itself carry a negotiable protocol?**
 
-If spatial D0–D4 fail while the protocol gel passes, we learned that the clean signaling-game result does not survive the physical substrate. If they survive, Phase I's strange writable geography has become a genuine communication medium.
-
 ## Claim boundary
 
-Passing D0–D4 supports an emergent, pair-specific, repairable signaling convention in a minimal artificial material system. It does not establish language understanding, biological speaker–listener coupling, qualia transfer, consciousness, or thought.
+D0–D4 support an emergent, pair-specific, repairable signaling convention in a minimal artificial material system. S0–S4 separately support a context-specific residual mechanism for repairing a remapped launch boundary in one spatial body. Neither establishes language understanding, biological speaker–listener coupling, an AIS model, electric-fish circuitry, qualia transfer, consciousness, or thought.
