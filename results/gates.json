@@ -1,0 +1,62 @@
+{
+  "schema": "jellobrain/gates-v1",
+  "claim_boundary": "Passing gates supports persistent history, order sensitivity, geometry-dependent responses, context dependence, reservoir computation, and cross-world decodability in this toy. It does not establish thought, understanding, consciousness, or a brain model.",
+  "gates": [
+    {
+      "gate": "W0_PERSISTENT_WORD_TRACE",
+      "question": "After fast state is wiped, can neutral probes identify which corpus shaped the gel?",
+      "decoder": "nearest centroid; held-out world seeds",
+      "accuracy": 1.0,
+      "chance": 0.5,
+      "pass": true
+    },
+    {
+      "gate": "W1_ORDER_NOT_FREQUENCY",
+      "question": "With exactly equal primitive counts, does order leave a decodable slow trace?",
+      "corpus_0_counts": {"A": 4, "B": 4, "C": 4, "D": 4, "E": 0, "F": 0},
+      "corpus_1_counts": {"A": 4, "B": 4, "C": 4, "D": 4, "E": 0, "F": 0},
+      "counts_identical": true,
+      "accuracy": 1.0,
+      "chance": 0.5,
+      "pass": true
+    },
+    {
+      "gate": "W2_GEOMETRY_MATTERS",
+      "question": "If all material values are preserved but spatially/directionally shuffled, does decoding collapse?",
+      "intact_accuracy": 1.0,
+      "shuffled_accuracy": 0.5,
+      "delta": 0.5,
+      "chance": 0.5,
+      "pass": true
+    },
+    {
+      "gate": "W3_CONTEXT",
+      "question": "Does the identical target primitive E evoke distinguishable responses after AB versus CD context?",
+      "target": "E",
+      "contexts": ["AB", "CD"],
+      "accuracy": 1.0,
+      "chance": 0.5,
+      "pass": true
+    },
+    {
+      "gate": "W4_COMPUTATION",
+      "question": "Can a linear readout of gel state solve temporal XOR better than any linear boundary on the two raw bits?",
+      "reservoir_accuracy": 1.0,
+      "raw_linear_attacker_upper_accuracy": 0.75,
+      "delta": 0.25,
+      "pass": true
+    },
+    {
+      "gate": "W5_SHARED_VS_INDIVIDUAL_CODE",
+      "question": "Can a decoder trained on 10 individualized gels identify order-only pseudowords in 10 unseen gels?",
+      "individuality_sigma": 0.012,
+      "train_worlds": 10,
+      "test_worlds": 10,
+      "classes": ["ABC", "ACB", "BAC", "BCA"],
+      "accuracy": 1.0,
+      "chance": 0.25,
+      "pass": true
+    }
+  ],
+  "all_pass": true
+}
