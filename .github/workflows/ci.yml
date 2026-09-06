@@ -27,3 +27,4 @@ jobs:
       - run: python poke_gates.py
       - run: python crossing_gates.py
       - run: python robustness_gates.py
+      - run: python assurance_gates.py
