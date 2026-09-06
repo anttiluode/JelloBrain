@@ -1,0 +1,29 @@
+{
+  "schema": "jellobrain/shared-route-robustness-v1",
+  "claim_boundary": "S11 probes numerical/functional margin in the current toy readout. It does not establish biological noise levels, nor does it prove that a particular mechanism such as frequency channels, inhibition, or axonal compartmentation is required.",
+  "gates": [
+    {
+      "gate": "S11_SHARED_ROUTE_MARGIN_ROBUSTNESS",
+      "question": "Does the formally correct two-route shared-sheet solution retain a robust launcher margin, or does tiny readout perturbation collapse it toward chance?",
+      "n_seeds": 12,
+      "oracle_repeats_per_route": 400,
+      "readout_noise_sigma": 0.001,
+      "readout_noise_fraction_of_mean_response": 8.803408468032694e-05,
+      "single_route": {
+        "mean_correct_margin": 0.6579877946378396,
+        "min_correct_margin": 0.6579572124987525,
+        "mean_noisy_accuracy": 1.0
+      },
+      "shared_two_route": {
+        "mean_correct_margin": 8.589213932911713e-06,
+        "min_correct_margin": 7.743591467601618e-06,
+        "max_correct_margin": 9.43435050437813e-06,
+        "mean_noisy_accuracy": 0.5033124999999999
+      },
+      "margin_ratio_shared_over_single": 1.305375875192224e-05,
+      "diagnostic_pass": true,
+      "interpretation": "The shared-sheet argmax solution exists but its correct margin is about 1.3e-5 of the isolated-route margin. Readout noise only 8.8e-5 of mean response collapses it to chance while isolated routes remain perfect. The remaining problem is robust separation / interference, not simple lack of exploration."
+    }
+  ],
+  "all_pass": true
+}
