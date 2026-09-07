@@ -1,4 +1,4 @@
-name: S20 frontier
+name: S21 frontier
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  receipt-gated:
+  forced-delay:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,4 +18,4 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install --upgrade pip
       - run: pip install -r requirements.txt
-      - run: python receipt_gated_allocator.py
+      - run: python takens_efference_probe.py
