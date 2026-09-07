@@ -1,0 +1,134 @@
+{
+  "schema": "jellobrain/final-summary-v1",
+  "status": "research-arc stop point",
+  "source_actions_run": 34048719274,
+  "claim_boundary": "This summary describes toy dynamical systems and diagnostics. It does not establish thought, understanding, consciousness, a biological neuron model, chandelier-cell function, AIS computation, or electric-fish circuitry.",
+  "strongest_safe_claim": "JelloBrain shows, in a sequence of toy systems, that ordered signals can write persistent operator geometry; initially meaningless pulses can acquire pair-specific repairable roles; context-keyed prediction error can expose alternatives hidden by inherited geometry; novelty, relevance, and plasticity must be separated; and failure-gated plasticity can stabilize competing spatial routes. Repeated contingency reversal remains unsolved in the current shared scalar substrate.",
+  "results": {
+    "W0_W5": {
+      "all_pass": true,
+      "key_results": {
+        "persistent_trace_accuracy": 1.0,
+        "order_not_frequency_accuracy": 1.0,
+        "geometry_intact_accuracy": 1.0,
+        "geometry_shuffled_accuracy": 0.5,
+        "temporal_xor_gel_accuracy": 1.0,
+        "temporal_xor_raw_linear_upper_accuracy": 0.75,
+        "cross_world_accuracy": 1.0
+      }
+    },
+    "D0_D4": {
+      "all_pass": true,
+      "key_results": {
+        "intact_reward": 1.0,
+        "swapped_channel_reward": 0.0,
+        "foreign_crossplay_reward": 0.475,
+        "coupling_reward_pearson_r": 0.8845998807103285,
+        "repaired_reward_after_wire_swap": 1.0,
+        "canonical_relational_accuracy": 1.0
+      }
+    },
+    "S0_S4": {
+      "all_pass": true,
+      "key_results": {
+        "virgin_geometric_shortcut_accuracy": 1.0,
+        "wire_swap_accuracy": 0.0,
+        "naive_repair_accuracy": 0.0,
+        "context_keyed_residual_plus_write_accuracy": 1.0,
+        "residual_no_write_late_reward": 0.49249999999999994,
+        "global_predictor_accuracy": 0.0,
+        "wrong_context_predictor_accuracy": 0.0,
+        "fast_surprise_only_predictor_accuracy": 0.5
+      }
+    },
+    "S5_S8": {
+      "all_pass": true,
+      "interpretation": "Expected does not mean irrelevant. Prediction error, contextual relevance, and output/plasticity eligibility should not be collapsed into one state variable.",
+      "key_results": {
+        "novelty_ping_rate_initial": 0.8506944444444443,
+        "novelty_ping_rate_late": 0.0,
+        "familiar_relevant_target_ping_rate": 1.0,
+        "same_event_wrong_context_ping_rate": 0.0,
+        "surprise_only_target_ping_rate": 0.0,
+        "dual_gate_precision": 1.0
+      }
+    },
+    "S9": {
+      "pass": false,
+      "interpretation": "Transient mismatch-triggered POKE improves behavior while active but does not fully embody the policy in raw spatial material. Abundant exploration also stops at 0.5, so exploration is not the remaining bottleneck.",
+      "final_raw_accuracy_after_controller_erased": 0.5,
+      "always_explore_final_raw_accuracy": 0.5,
+      "no_write_final_raw_accuracy": 0.0
+    },
+    "S10": {
+      "diagnostic_pass": false,
+      "interpretation": "The initial hard-capacity hypothesis is falsified. Balanced oracle writing can formally hold both routes in one shared scalar sheet, but sequential writing leaves one route correct at a time.",
+      "shared_sheet_oracle_accuracy": 1.0,
+      "sequential_after_first_accuracy": 0.5,
+      "sequential_after_second_accuracy": 0.5
+    },
+    "S11": {
+      "diagnostic_pass": true,
+      "interpretation": "The formally correct shared two-route solution has almost no margin and collapses to chance under tiny readout perturbation.",
+      "isolated_route_mean_margin": 0.6579877946378396,
+      "shared_route_mean_margin": 0.000008589213932911713,
+      "shared_over_single_margin_ratio": 0.00001305375875192224,
+      "noise_fraction_of_mean_response": 0.00008803408468032694,
+      "isolated_noisy_accuracy": 1.0,
+      "shared_noisy_accuracy": 0.5033124999999999
+    },
+    "S12": {
+      "pass": true,
+      "interpretation": "Failure-gated plasticity solves the two-route problem without a correct-output table. Stable successful routes stop rewriting themselves.",
+      "reward_every_success_final_raw_accuracy": 0.5,
+      "failure_gated_final_raw_accuracy": 1.0,
+      "failure_gated_last_200_reward": 1.0,
+      "failure_gated_last_200_poke_rate": 0.0,
+      "failure_gated_last_200_write_rate": 0.0,
+      "reward_every_success_total_writes_mean": 999.6666666666666,
+      "failure_gated_total_writes_mean": 121.0
+    },
+    "S13": {
+      "pass": false,
+      "interpretation": "A familiar successful mapping can be made quiet, but changed consequences do not yet produce clean repeatable remapping of the shared substrate. Reactivation and assurance reopen learning but also damage competing contexts.",
+      "phase1_raw_accuracy_before_reversal": 1.0,
+      "phase1_late_poke_rate": 0.0,
+      "phase1_late_write_rate": 0.0,
+      "failure_only_final_new_accuracy": 0.5,
+      "failure_only_final_old_accuracy": 0.5,
+      "failure_plus_assurance_final_new_accuracy": 0.375,
+      "failure_plus_assurance_final_old_accuracy": 0.625,
+      "no_reactivation_final_new_accuracy": 0.0,
+      "no_reactivation_final_old_accuracy": 1.0,
+      "no_material_write_final_new_accuracy": 0.0,
+      "no_material_write_final_old_accuracy": 1.0
+    },
+    "route_retirement_sweep": {
+      "interpretation": "Local weakening of failed routes does not reveal a clean reversible regime. Different weakening rates tend to favor one contingency or the other rather than preserving repeatable bidirectional adaptation.",
+      "rates": {
+        "0.0": [1.0, 0.375, 1.0],
+        "0.005": [0.875, 0.25, 1.0],
+        "0.02": [0.0, 1.0, 0.0],
+        "0.08": [1.0, 0.0, 1.0]
+      },
+      "phase_order": ["learn_swapped", "reverse_normal", "reverse_swapped_again"]
+    }
+  },
+  "stop_point": {
+    "what_survived": [
+      "history can be embodied in spatial operator geometry",
+      "meaningless pulses can acquire private interaction-dependent roles",
+      "prediction residual can expose alternatives hidden by inherited geometry",
+      "novelty and learned relevance are distinct control variables",
+      "plasticity should be gated by need rather than continuously reinforced"
+    ],
+    "what_failed": [
+      "raw replay as a universal spatial learner",
+      "exploration alone as the missing mechanism",
+      "a single shared scalar sheet as a robust repeatedly reversible memory",
+      "reactivation plus assurance as a complete solution to contingency reversal",
+      "naive local route retirement as a clean stability-plasticity fix"
+    ],
+    "next_if_continued": "Change representation before adding more controller logic: test explicit channel/subspace/compartment separation, possibly including frequency-selective perturbation as an attacker."
+  }
+}
