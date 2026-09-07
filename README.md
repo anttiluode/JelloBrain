@@ -4,7 +4,8 @@
 
 **Live Phase I:** https://anttiluode.github.io/JelloBrain/  
 **Live Phase II dialogue lab:** https://anttiluode.github.io/JelloBrain/dialogue.html  
-**Live spatial launcher lab:** https://anttiluode.github.io/JelloBrain/spatial.html
+**Live spatial launcher lab:** https://anttiluode.github.io/JelloBrain/spatial.html  
+**Final research write-up:** [FINAL_RESULT.md](FINAL_RESULT.md)
 
 JelloBrain follows [GelatinIsland](https://github.com/anttiluode/GelatinIsland). The recurring idea is simple:
 
@@ -24,9 +25,17 @@ S0-S4   one full spatial body + launch boundary
 
 S5-S8   launch-boundary salience isolator
         novelty != relevance; expected != unimportant
+
+S9-S12  spatial consolidation diagnosis
+        exploration alone fails -> interference -> failure-gated plasticity succeeds
+
+S13     contingency reversal
+        reactivation wakes learning, but the shared scalar sheet does not remap robustly
 ```
 
-The current hard problem is to reunite those pieces without hiding a lookup table beside the launcher.
+The research arc now has a useful stopping point. The current substrate can learn stable competing routes, but repeated contingency reversal exposes a stability/plasticity and representational-interference problem. The next clean move would change the representation, not add another hidden controller.
+
+Machine-readable synthesis: [`results/final_summary.json`](results/final_summary.json)
 
 ---
 
@@ -118,7 +127,7 @@ Readable audit: [SPATIAL_RESULT.md](SPATIAL_RESULT.md)
 
 S3 was inspired by adaptive sensory cancellation / negative-image ideas: compare what the body produced with what its current context predicts, then use the residual rather than raw magnitude for exploration and credit.
 
-But S4 originally tempted us into an over-broad rule: "prediction must be slow." S5-S8 show that is not the stronger conclusion.
+But S4 originally tempted us into an over-broad rule: “prediction must be slow.” S5-S8 show that is not the stronger conclusion.
 
 ---
 
@@ -173,7 +182,7 @@ The revised structural hypothesis is therefore:
 
 > **Prediction, relevance, and structural consolidation should not be collapsed into one state variable.**
 
-A useful shorthand for the next architecture is:
+A useful shorthand is:
 
 ```text
 FAST
@@ -185,7 +194,7 @@ contextual relevance
 "what matters?"
 
 SLOW
-roads / AIS-like launch apparatus
+roads / launch apparatus
 "what has become part of the system?"
 ```
 
@@ -216,39 +225,68 @@ JelloBrain does **not** claim that chandelier cells are prediction-error neurons
 
 ---
 
-## The next hard gate — S9: relevance must bootstrap the road, then get out of the way
+## S9-S13 — where the project actually ends
 
-S5-S8 are intentionally an abstract two-by-two isolator. Their relevance state can learn the consequential context/event pair directly. That is useful as a falsification control, but it would be cheating to leave that table permanently beside a spatial organism.
+The later gates turned out to be more useful than simply pushing toward another positive score.
 
-So S9 has a stricter requirement:
+### S9 — POKE is not enough
+
+A mismatch-triggered POKE improves behavior while the controller is active, but after the controller is erased the raw spatial policy is only **0.500**. Always-explore also ends at **0.500**. Therefore the remaining bottleneck is not simply exploration.
+
+Frozen receipt: [`results/poke_gates.json`](results/poke_gates.json)
+
+### S10-S11 — the shared sheet has a margin problem
+
+Oracle writing shows that one scalar sheet can *formally* contain both routes at **1.000** accuracy, falsifying a simple hard-capacity story. But sequential writes leave one route correct at a time (**0.500**), and the shared correct margin is only about **8.59e-6**, roughly **1.31e-5** of an isolated route's margin. Tiny readout perturbation collapses the shared solution to **0.503** while isolated routes stay at **1.000**.
+
+Receipts: [`results/crossing_gates.json`](results/crossing_gates.json), [`results/robustness_gates.json`](results/robustness_gates.json)
+
+### S12 — failure-gated plasticity works
+
+Writing after every rewarded success creates a rich-get-richer loop. Stopping plasticity once a route is familiar and successful fixes the two-route task:
+
+| condition | final raw accuracy | mean writes |
+|---|---:|---:|
+| reward every success | **0.500** | 999.7 |
+| failure-gated plasticity | **1.000** | 121.0 |
+| failure-gated + assurance | **1.000** | 130.8 |
+
+The controller can then be erased. The learned behavior remains in the material.
+
+Readable audit: [ASSURANCE_RESULT.md](ASSURANCE_RESULT.md)  
+Frozen receipt: [`results/assurance_gates.json`](results/assurance_gates.json)
+
+The reusable principle is:
+
+> **The stable thing should not keep teaching itself that it is stable.**
+
+### S13 — contingency reversal fails
+
+After the mapping is stable and quiet, the outward contingency is changed.
+
+The system correctly wakes up and resumes POKEs/writes, but it does not cleanly remap the shared sheet:
 
 ```text
-candidate spatial route
-       ↓
-fast expectation
-       +
-transient contextual relevance
-       ↓
-AIS-like launch eligibility
-       ↓
-rewarded real JelloWorld traffic
-       ↓
-slow material route strengthens
-       ↓
-REMOVE / RELAX RELEVANCE
-       ↓
-behavior must survive in the spatial substrate
+failure-only reactivation:
+new mapping 0.500
+old mapping 0.500
+
+reactivation + assurance:
+new mapping 0.375
+old mapping 0.625
+
+no reactivation:
+new mapping 0.000
+old mapping 1.000
 ```
 
-If behavior dies when the relevance state is removed, S9 fails: we merely hid the policy in another table.
+A final local route-retirement sweep also finds no clean reversible regime. Depending on weakening rate, one contingency or the other tends to win.
 
-There is also a conceptual correction to make in S9:
+That is the stop point:
 
-> **which output wins** and **whether that output deserves an outward ping** should be tested as separate operations.
+> **The missing mechanism is now representational separation / robust addressing between competing routes, not another layer of exploration or attention logic.**
 
-The present S3 launcher uses a residual partly to choose between `C/D`. A more AIS-like architecture should let spatial competition create candidate outputs and let a boundary circuit control their **emission/eligibility**, rather than making the boundary itself secretly store the content of the decision.
-
-Only after that passes should the repo return to the grander target: two full spatial bodies with private interiors, sparse axon-like events, corollary/context signals, foreign-code attacks, wire swaps, and repair.
+Full synthesis: [FINAL_RESULT.md](FINAL_RESULT.md)
 
 ---
 
@@ -256,14 +294,20 @@ Only after that passes should the repo return to the grander target: two full sp
 
 ```bash
 python -m pip install -r requirements.txt
+pytest -q
 python gates.py
 python dialogue_gates.py
 python spatial_gates.py
 python salience_gates.py
-pytest -q
+python poke_gates.py
+python crossing_gates.py
+python robustness_gates.py
+python assurance_gates.py
+python reversal_gates.py
+python retirement_sweep.py
 ```
 
-CI runs all four gate suites on every push.
+CI runs the full sequence on every push. Some late gates are intentionally negative diagnostics; green CI means the result reproduced, not that every scientific hypothesis passed.
 
 ## Main files
 
@@ -274,16 +318,20 @@ CI runs all four gate suites on every push.
 - `spatial_launcher.py` / `spatial_gates.py` — S0-S4 inherited-route / negative-image launcher audit
 - `SPATIAL_RESULT.md` — readable spatial audit
 - `salience_gate.py` / `salience_gates.py` — S5-S8 surprise/relevance/ping isolator
-- `results/salience_gates.json` / `SALIENCE_RESULT.md` — frozen salience receipt and audit
+- `poke_launcher.py` / `poke_gates.py` — S9 POKE bootstrap failure
+- `crossing_gates.py` / `robustness_gates.py` — S10-S11 interference/margin diagnostics
+- `assurance_gates.py` / `ASSURANCE_RESULT.md` — S12 failure-gated plasticity
+- `reversal_gates.py` / `retirement_sweep.py` — S13 reversal and route-retirement stop point
+- `results/final_summary.json` / `FINAL_RESULT.md` — final synthesis
 - `MODEL.md` — Phase-I equations and claim boundary
 - `index.html`, `dialogue.html`, `spatial.html` — browser labs
 
 ## Claim boundary
 
-The strongest safe statement currently is:
+The strongest safe statement is now:
 
-> **JelloBrain contains a spatial toy in which ordered traffic writes persistent operator geometry; a minimal signaling control in which initially meaningless pulses acquire pair-specific, repairable roles; a spatial launcher audit in which context-specific prediction can expose alternatives hidden by inherited geometry; and a separate launch-boundary isolator showing that novelty and learned contextual relevance must be distinguished if familiar-but-important events are to remain eligible for sparse output.**
+> **JelloBrain contains a reproducible sequence of toy experiments in which ordered traffic writes persistent spatial operator geometry; initially meaningless pulses acquire pair-specific, repairable roles; context-specific prediction error exposes alternatives hidden by inherited geometry; novelty and learned relevance are separable; and failure-gated plasticity stabilizes competing routes. The same shared scalar substrate still fails at robust repeated contingency reversal because route changes interfere with one another.**
 
-Not understanding. Not consciousness. Not a biological model of chandelier cells, the AIS, or electric fish. Not yet two full spatial communicators.
+Not understanding. Not consciousness. Not a biological model of chandelier cells, the AIS, electric fish, or dendritic Takens reconstruction.
 
-That last gap is why the repo is still called **JelloBrain**.
+That failure is a good ending: it says what the next architecture would actually have to change.
