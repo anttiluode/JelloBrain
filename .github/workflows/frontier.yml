@@ -1,4 +1,4 @@
-name: S16X frontier
+name: S17 frontier
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  crosstalk:
+  conflict-split:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,4 +18,4 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install --upgrade pip
       - run: pip install -r requirements.txt
-      - run: python crosstalk_probe.py
+      - run: python conflict_split_probe.py
